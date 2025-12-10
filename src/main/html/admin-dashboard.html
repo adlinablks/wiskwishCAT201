@@ -2,7 +2,208 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Wisk Wish</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: lightblue;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: lightblue;
+            backdrop-filter: blur(5px);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-text{
+            color: lightblue;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .logout-btn:hover{
+            transform: translateY(-2px);
+            box-shadow: aliceblue;
+        }
+
+        .container{
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 40px;
+        }
+
+        .page-title{
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: lightblue;
+            font-weight: bold;
+        }
+        .tabs{
+            display: flex;
+            gap: 20px;
+            margin-botton:25px;
+        }
+
+        .tab{
+            padding: 10px;
+            color: lightblue;
+            cursor: pointer;
+            border-radius: 10px;
+            background-color: white;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .tab:hover{
+            background-color: aliceblue;
+        }
+
+        .tab.active{
+            color: lightblue;
+            background-color: white;
+            font-weight: bold;
+            box-shadow: lightblue;
+        }
+
+        .inventory-list{
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: lightblue;
+        }
+
+        .inventory-item{
+            display: flex;
+            allign-items: center;
+            padding: 10px;
+            border-bottom: 3px solid lightblue;
+            transition: 0.3s;
+        }
+
+        .inventory-item:hover{
+            background-color: aliceblue;
+        }
+
+        .inventory-item:last-child{
+            border-bottom: 3px solid lightblue;
+        }
+
+        .item-image{
+            width: 90px;
+            height: 90px;
+            background-color: lightblue;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            margin-right: 10px;
+            font-weight: bold;
+            box-shadow: lightblue;
+        }
+
+        .item-details{
+            flex: 1;
+        }
+
+        .item-id{
+            font-size: 20px;
+            color: lightblue;
+            margin-botton: 12px;
+            font-weight: bold;
+        }
+
+        .item-name{
+            font-size: 20px;
+            color: lightblue;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .customization-group{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .customization-row{
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .customization-label{
+            font-size: 20px;
+            color: lightblue;
+            font-weight: bold;
+            min-width: fit-content;
+        }
+
+        .customization-options{
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .option-badge{
+            padding: 10px;
+            background-color: lightblue;
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid lightblue;
+        }
+
+        .item-stock{
+            margin-right: auto;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: lightblue;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .update-button{
+            background-color: lightblue;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: lightblue;
+            transition: 0.3s;
+        }
+
+        .update-button:hover{
+            transform: translateY(-2px);
+            box-shadow: aliceblue;
+        }
+        @media (max-width: 767px){
+            .inventory-item{
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .item-stock{
+                margin-right: 0;
+            }
+
+            .update-button{
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
