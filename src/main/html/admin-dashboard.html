@@ -19,15 +19,15 @@
 
         .header {
             background-color: white;
-            padding: 20px 50px;
+            padding: 20px 45px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header-title {
-            font-size: 24px;
+            font-size: 25px;
             font-weight: bold;
             color: lightblue;
         }
@@ -57,7 +57,7 @@
 
         .logout-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
 
         .container {
@@ -67,7 +67,7 @@
         }
 
         .page-title {
-            font-size: 28px;
+            font-size: 30px;
             margin-bottom: 30px;
             color: white;
             font-weight: bold;
@@ -103,7 +103,7 @@
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .inventory-item {
@@ -126,7 +126,7 @@
             width: 90px;
             height: 90px;
             background-color: lightblue;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -138,7 +138,6 @@
             overflow: hidden;
         }
 
-        /* RULE: Make the image fill its container */
         .item-image img {
             width: 100%;
             height: 100%;
@@ -153,21 +152,21 @@
         .item-id {
             font-size: 14px;
             color: #999;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             font-weight: bold;
         }
 
         .item-name {
             font-size: 20px;
             color: lightblue;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: bold;
         }
 
         .customization-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .customization-row {
@@ -185,12 +184,12 @@
 
         .customization-options {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .option-badge {
-            padding: 6px 12px;
+            padding: 5px 10px;
             background-color: lightblue;
             color: white;
             border-radius: 10px;
@@ -204,14 +203,14 @@
         .option-badge:hover {
             background-color: white;
             color: lightblue;
-            transform: auto;
+            transform: scale(1.05);
         }
 
         .option-badge.selected {
             background-color: white;
             color: lightblue;
             border: 2px solid lightblue;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .item-stock {
@@ -220,7 +219,7 @@
             font-size: 16px;
             font-weight: bold;
             background-color: lightblue;
-            padding: 10px 16px;
+            padding: 10px 15px;
             border-radius: 10px;
         }
 
@@ -238,10 +237,9 @@
 
         .update-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -284,7 +282,7 @@
 
         .modal-input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 2px solid lightblue;
             border-radius: 10px;
             font-size: 16px;
@@ -303,7 +301,7 @@
 
         .modal-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border: none;
             border-radius: 10px;
             font-size: 14px;
@@ -364,7 +362,6 @@
         <div class="tab active">Inventory</div>
     </div>
 
-    <!-- ribbon cake-->
     <div class="inventory-list">
         <div class="inventory-item">
             <div class="item-image">
@@ -401,7 +398,6 @@
             <button class="update-button">Update Quantity</button>
         </div>
 
-        <!-- stitch cake-->
         <div class="inventory-item">
             <div class="item-image">
                 <img src="pictures/stitch-cake.jpg" alt="Stitch Cake">
@@ -437,7 +433,6 @@
             <button class="update-button">Update Quantity</button>
         </div>
 
-        <!--two tier cake-->
         <div class="inventory-item">
             <div class="item-image">
                 <img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
@@ -471,7 +466,6 @@
             <button class="update-button">Update Quantity</button>
         </div>
 
-        <!-- fox cake-->
         <div class="inventory-item">
             <div class="item-image">
                 <img src="pictures/fox-cake.jpg" alt="Fox Cake">
@@ -507,7 +501,6 @@
             <button class="update-button">Update Quantity</button>
         </div>
 
-        <!-- drawn flower cake-->
         <div class="inventory-item">
             <div class="item-image">
                 <img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
@@ -542,7 +535,6 @@
             <button class="update-button">Update Quantity</button>
         </div>
 
-        <!-- bomb cake-->
         <div class="inventory-item">
             <div class="item-image">
                 <img src="pictures/bomb-cake.jpg" alt="Bomb Cake">
@@ -588,7 +580,6 @@
             <button class="modal-btn modal-btn-save" onclick="saveQuantity()">Save</button>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

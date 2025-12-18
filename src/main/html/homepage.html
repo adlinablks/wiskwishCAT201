@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name ="viewport" content ="width=device-width, initial-scale=1.0">
+    <title>Wisk Wish is here to serve!</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: lightblue;
+            min-height: 100vh;
+        }
+
+        .header{
+            background-color: white;
+            padding: 20px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title{
+            font-size: 25px;
+            font-weight: bold;
+            color: lightblue;
+        }
+
+        .header-right{
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links{
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link{
+            color: lightblue;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover{
+            color: #4fc3f7;
+        }
+
+        .login-button{
+            background-color: lightblue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .login-button:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,.2);
+        }
+
+        .hero-section{
+            max-width: 1300px;
+            margin: 60px auto;
+            padding: 0 40px;
+            text-align: center;
+        }
+
+        .hero-title{
+            font-size: 50px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle{
+            font-size: 20px;
+            color: white;
+            margin-bottom: 35px;
+            opacity: 0.9;
+        }
+
+        .cta-button{
+            background-color: white;
+            color: lightblue;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,.2);
+        }
+
+        .cta-button:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,.3);
+        }
+
+        .featured-section{
+            max-width: 1300px;
+            margin: 80px auto;
+            padding: 0 40px;
+        }
+
+        .section-title{
+            font-size: 35px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .cake-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .cake-card{
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,.1);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .cake-card:hover{
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
+        }
+
+        .cake-image {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cake-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(173, 216, 230, 0.9);
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .cake-info{
+            padding: 20px;
+        }
+
+        .cake-id{
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .cake-name{
+            font-size: 22px;
+            color: lightblue;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .cake-description{
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .cake-options{
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .option-tag {
+            padding: 5px 10px;
+            background-color: aliceblue;
+            color: lightblue;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .order-button {
+            width: 100%;
+            background-color: lightblue;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .order-button:hover {
+            background-color: #4fc3f7;
+        }
+
+        .features-section {
+            max-width: 1300px;
+            margin: 80px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            color: lightblue;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background-color: white;
+            padding: 40px 50px;
+            margin-top: 80px;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-text {
+            color: lightblue;
+            font-weight: bold;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-link {
+            color: lightblue;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #4fc3f7;
+        }
+
+        @media (max-width: 767px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 30px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 25px;
+            }
+
+            .cake-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="header-title">Wisk Wish</div>
+    <div class="header-right">
+        <div class="nav-links">
+            <a class="nav-link" href="#home">Home</a>
+            <a class="nav-link" href="#cakes">Our Cakes</a>
+            <a class="nav-link" href="#about">About</a>
+            <a class="nav-link" href="#contact">Contact</a>
+        </div>
+        <button class="login-button" onclick="alert('Login feature coming soon!')">Login</button>
+    </div>
+</div>
+
+<div class="hero-section" id="home">
+    <h1 class="hero-title">Make Your Moments Magical</h1>
+    <p class="hero-subtitle">Custom-made cakes for every special occasion</p>
+    <button class="cta-button" onclick="document.getElementById('cakes').scrollIntoView({behavior: 'smooth'})">
+        Order Now
+    </button>
+</div>
+
+<div class="featured-section" id="cakes">
+    <h2 class="section-title">Our Featured Cakes</h2>
+
+    <div class="cake-grid">
+        <div class="cake-card">
+            <div class="cake-image">
+                <img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">
+                <div class="image-label">Ribbon Cake</div>
+            </div>
+            <div class="cake-info">
+                <div class="cake-id">C01</div>
+                <div class="cake-name">Ribbon Cake</div>
+                <div class="cake-description">
+                    Elegant ribbon design perfect for celebrations. Available in multiple tiers and flavors.
+                </div>
+                <div class="cake-options">
+                    <span class="option-tag">1-2 Tiers</span>
+                    <span class="option-tag">7-10 inch</span>
+                    <span class="option-tag">Vanilla/Chocolate</span>
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+
+        <div class="cake-card">
+            <div class="cake-image">
+                <img src="pictures/stitch-cake.jpg" alt="Stitch Cake">
+                <div class="image-label">Stitch Cake</div>
+            </div>
+            <div class="cake-info">
+                <div class="cake-id">C02</div>
+                <div class="cake-name">Stitch Cake</div>
+                <div class="cake-description">
+                    Adorable character cake that brings joy to any party. Perfect for Disney fans!
+                </div>
+                <div class="cake-options">
+                    <span class="option-tag">1-2 Tiers</span>
+                    <span class="option-tag">7-10 inch</span>
+                    <span class="option-tag">Vanilla/Chocolate</span>
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+
+        <div class="cake-card">
+            <div class="cake-image">
+                <img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
+                <div class="image-label">Real Flower Cake</div>
+            </div>
+            <div class="cake-info">
+                <div class="cake-id">C03</div>
+                <div class="cake-name">Real Flower Cake</div>
+                <div class="cake-description">
+                    Stunning cake adorned with real flowers for an elegant, natural touch.
+                </div>
+                <div class="cake-options">
+                    <span class="option-tag">1 Tier</span>
+                    <span class="option-tag">10 inch</span>
+                    <span class="option-tag">Vanilla/Chocolate</span>
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+
+        <div class="cake-card">
+            <div class="cake-image">
+                <img src="pictures/fox-cake.jpg" alt="Fox Cake">
+                <div class="image-label">Fox Cake</div>
+            </div>
+            <div class="cake-info">
+                <div class="cake-id">C04</div>
+                <div class="cake-name">Fox Cake</div>
+                <div class="cake-description">
+                    Charming woodland-themed cake perfect for nature lovers and kids' parties.
+                </div>
+                <div class="cake-options">
+                    <span class="option-tag">1-2 Tiers</span>
+                    <span class="option-tag">7-10 inch</span>
+                    <span class="option-tag">Vanilla/Chocolate</span>
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+
+        <div class="cake-card">
+            <div class="cake-image">
+                <img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
+                <div class="image-label">Drawn Flower Cake</div>
+            </div>
+            <div class="cake-info">
+                <div class="cake-id">C05</div>
+                <div class="cake-name">Drawn Flower Cake</div>
+                <div class="cake-description">
+                    Artistic hand-drawn floral design that combines elegance with creativity.
+                </div>
+                <div class="cake-options">
+                    <span class="option-tag">1 Tier</span>
+                    <span class="option-tag">7-10 inch</span>
+                    <span class="option-tag">Vanilla/Chocolate</span>
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+
+        <div class="cake-card">
+            <div class="cake-image">
+                <img src="pictures/bomb-cake.jpg" alt="Bomb Cake">
+                <div class="image-label">Bomb Cake</div>
+            </div>
+            <div class="cake-info">
+                <div class="cake-id">C06</div>
+                <div class="cake-name">Bomb Cake</div>
+                <div class="cake-description">
+                    Fun surprise cake filled with treats! Perfect for special reveals and celebrations.
+                </div>
+                <div class="cake-options">
+                    <span class="option-tag">1 Tier</span>
+                    <span class="option-tag">7 inch</span>
+                    <span class="option-tag">Vanilla/Chocolate</span>
+                </div>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section" id="about">
+    <h2 class="section-title" style="color: lightblue;">Lets get to know Wisk Wish!</h2>
+
+    <div class="features-grid">
+        <div class="feature-item">
+            <div class="feature-title">Moto</div>
+            <div class="feature-text">
+                Our moto is ... </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">Vision</div>
+            <div class="feature-text">
+                Our vision is...
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">Target</div>
+            <div class="feature-text">
+                Our target is...
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-title">KIV</div>
+            <div class="feature-text">
+                Taktau nak tulis apa...
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer" id="contact">
+    <div class="footer-content">
+        <div class="footer-text">© 2024 Wisk Wish. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="https://wa.me/601136007067" class="footer-link" target="_blank">Contact Us</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
