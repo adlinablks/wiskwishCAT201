@@ -372,7 +372,7 @@
         <div class="cake-card">
             <div class="cake-image">
                 <!--<img src="../html/pictures/ribbon-cake.jpg" alt="Ribbon Cake">-->
-                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg" alt="Ribbon Cake">
                 <div class="image-label">Ribbon Cake</div>
             </div>
             <div class="cake-info">
@@ -397,7 +397,7 @@
         <div class="cake-card">
             <div class="cake-image">
                 <!--<img src="../html/pictures/stitch-cake.jpg" alt="Stitch Cake">-->
-                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg" alt="Stitch Cake" >
                 <div class="image-label">Stitch Cake</div>
             </div>
             <div class="cake-info">
@@ -422,7 +422,7 @@
         <div class="cake-card">
             <div class="cake-image">
                 <!--<img src="../html/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">-->
-                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
                 <div class="image-label">Real Flower Cake</div>
             </div>
             <div class="cake-info">
@@ -447,7 +447,7 @@
         <div class="cake-card">
             <div class="cake-image">
                 <!--<img src="../html/pictures/fox-cake.jpg" alt="Fox Cake">-->
-                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg" alt="Fox Cake">
 
                 <div class="image-label">Fox Cake</div>
             </div>
@@ -473,7 +473,7 @@
         <div class="cake-card">
             <div class="cake-image">
                 <!--<img src="../html/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">-->
-                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
                 <div class="image-label">Drawn Flower Cake</div>
             </div>
             <div class="cake-info">
@@ -498,7 +498,7 @@
         <div class="cake-card">
             <div class="cake-image">
                 <!--<img src="../html/pictures/bomb-cake.jpg" alt="Bomb Cake">-->
-                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg" alt="Bomb Cake">
                 <div class="image-label">Bomb Cake</div>
             </div>
             <div class="cake-info">

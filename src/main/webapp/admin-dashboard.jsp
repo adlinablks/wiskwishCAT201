@@ -366,7 +366,7 @@
     <div class="inventory-list">
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg" alt="Ribbon Cake">
                 <!--<img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">-->
             </div>
             <div class="item-details">
@@ -407,7 +407,7 @@
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg"  alt="Stitch Cake">
                <!-- <img src="pictures/stitch-cake.jpg" alt="Stitch Cake"> -->
             </div>
             <div class="item-details">
@@ -448,7 +448,7 @@
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
                 <!--<img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">-->
             </div>
             <div class="item-details">
@@ -487,7 +487,7 @@
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg" alt="Fox Cake">
                 <!--<img src="pictures/fox-cake.jpg" alt="Fox Cake">-->
             </div>
             <div class="item-details">
@@ -528,7 +528,7 @@
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
                 <!--<img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">-->
             </div>
             <div class="item-details">
@@ -568,7 +568,7 @@
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg" alt="Bomb Cake">
                 <!--<img src="pictures/bomb-cake.jpg" alt="Bomb Cake">-->
 
             </div>
