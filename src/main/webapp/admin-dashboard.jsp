@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -365,7 +366,8 @@
     <div class="inventory-list">
         <div class="inventory-item">
             <div class="item-image">
-                <img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">
+                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg">
+                <!--<img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">-->
             </div>
             <div class="item-details">
                 <div class="item-id">C01</div>
@@ -381,8 +383,8 @@
                     <div class="customization-row">
                         <span class="customization-label">Flavour:</span>
                         <div class="customization-options">
-                            <span class="option-badge" data-qty="13">Vanilla (13)</span>
-                            <span class="option-badge" data-qty="12">Chocolate (12)</span>
+                            <span class="option-badge" data-qty="13" onclick="selectOption(this, 'Flavour')">Vanilla (13)</span>
+                            <span class="option-badge" data-qty="12" onclick="selectOption(this, 'Flavour')">Chocolate (12)</span>
                         </div>
                     </div>
                     <div class="customization-row">
@@ -395,12 +397,18 @@
                 </div>
             </div>
             <div class="item-stock">Total: 25</div>
-            <button class="update-button">Update Quantity</button>
+            <!--<button class="update-button">Update Quantity</button>-->
+            <form action="InventoryController" method="get">
+                <input type="hidden" name="cakeId" value="C01">
+                <button class="update-button" type="submit">Update Quantity</button>
+            </form>
+
         </div>
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="pictures/stitch-cake.jpg" alt="Stitch Cake">
+                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg">
+               <!-- <img src="pictures/stitch-cake.jpg" alt="Stitch Cake"> -->
             </div>
             <div class="item-details">
                 <div class="item-id">C02</div>
@@ -430,12 +438,18 @@
                 </div>
             </div>
             <div class="item-stock">Total: 18</div>
-            <button class="update-button">Update Quantity</button>
+            <!--<button class="update-button">Update Quantity</button>-->
+            <form action="InventoryController" method="get">
+                <input type="hidden" name="cakeId" value="C02">
+                <button class="update-button" type="submit">Update Quantity</button>
+            </form>
+
         </div>
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
+                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg">
+                <!--<img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">-->
             </div>
             <div class="item-details">
                 <div class="item-id">C03</div>
@@ -463,12 +477,18 @@
                 </div>
             </div>
             <div class="item-stock">Total: 12</div>
-            <button class="update-button">Update Quantity</button>
+            <!--<button class="update-button">Update Quantity</button>-->
+            <form action="InventoryController" method="get">
+                <input type="hidden" name="cakeId" value="C03">
+                <button class="update-button" type="submit">Update Quantity</button>
+            </form>
+
         </div>
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="pictures/fox-cake.jpg" alt="Fox Cake">
+                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg">
+                <!--<img src="pictures/fox-cake.jpg" alt="Fox Cake">-->
             </div>
             <div class="item-details">
                 <div class="item-id">C04</div>
@@ -498,12 +518,18 @@
                 </div>
             </div>
             <div class="item-stock">Total: 15</div>
-            <button class="update-button">Update Quantity</button>
+            <form action="InventoryController" method="get">
+                <input type="hidden" name="cakeId" value="C04">
+                <button class="update-button" type="submit">Update Quantity</button>
+            </form>
+
+            <!--<button class="update-button">Update Quantity</button>-->
         </div>
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
+                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg">
+                <!--<img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">-->
             </div>
             <div class="item-details">
                 <div class="item-id">C05</div>
@@ -532,12 +558,19 @@
                 </div>
             </div>
             <div class="item-stock">Total: 20</div>
-            <button class="update-button">Update Quantity</button>
+            <!--<button class="update-button">Update Quantity</button>-->
+            <form action="InventoryController" method="get">
+                <input type="hidden" name="cakeId" value="C05">
+                <button class="update-button" type="submit">Update Quantity</button>
+            </form>
+
         </div>
 
         <div class="inventory-item">
             <div class="item-image">
-                <img src="pictures/bomb-cake.jpg" alt="Bomb Cake">
+                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg">
+                <!--<img src="pictures/bomb-cake.jpg" alt="Bomb Cake">-->
+
             </div>
             <div class="item-details">
                 <div class="item-id">C06</div>
@@ -565,7 +598,13 @@
                 </div>
             </div>
             <div class="item-stock">Total: 10</div>
-            <button class="update-button">Update Quantity</button>
+            <!--try replace dgn button java-controlled action-->
+            <!--<button class="update-button">Update Quantity</button>-->
+            <form action="InventoryController" method="get">
+                <input type="hidden" name="cakeId" value="C06">
+                <button class="update-button" type="submit">Update Quantity</button>
+            </form>
+
         </div>
     </div>
 </div>
@@ -581,5 +620,18 @@
         </div>
     </div>
 </div>
+
+<form id="hiddenOrderForm" action="InventoryController" method="POST" style="display:none;">
+    <input type="hidden" name="cakeId" id="formCakeId">
+    <input type="hidden" name="tier" id="formTier">
+    <input type="hidden" name="flavour" id="formFlavour">
+    <input type="hidden" name="size" id="formSize">
+</form>
+
+<script src="${pageContext.request.contextPath}/js/script.js"></script>
+
+</body>
+</html>
+
 </body>
 </html>

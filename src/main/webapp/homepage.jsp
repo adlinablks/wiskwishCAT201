@@ -371,7 +371,8 @@
     <div class="cake-grid">
         <div class="cake-card">
             <div class="cake-image">
-                <img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">
+                <!--<img src="../html/pictures/ribbon-cake.jpg" alt="Ribbon Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg">
                 <div class="image-label">Ribbon Cake</div>
             </div>
             <div class="cake-info">
@@ -385,13 +386,18 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
+                <!--<button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                    Order Now
+                </button>-->
                 <button class="order-button">Order Now</button>
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <img src="pictures/stitch-cake.jpg" alt="Stitch Cake">
+                <!--<img src="../html/pictures/stitch-cake.jpg" alt="Stitch Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg">
                 <div class="image-label">Stitch Cake</div>
             </div>
             <div class="cake-info">
@@ -405,13 +411,18 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
+                <!--<button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                    Order Now
+                </button>-->
                 <button class="order-button">Order Now</button>
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
+                <!--<img src="../html/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg">
                 <div class="image-label">Real Flower Cake</div>
             </div>
             <div class="cake-info">
@@ -425,13 +436,19 @@
                     <span class="option-tag">10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
+                <!--<button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                    Order Now
+                </button>-->
                 <button class="order-button">Order Now</button>
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <img src="pictures/fox-cake.jpg" alt="Fox Cake">
+                <!--<img src="../html/pictures/fox-cake.jpg" alt="Fox Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg">
+
                 <div class="image-label">Fox Cake</div>
             </div>
             <div class="cake-info">
@@ -445,13 +462,18 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
+                <!--<button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                    Order Now
+                </button>-->
                 <button class="order-button">Order Now</button>
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
+                <!--<img src="../html/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg">
                 <div class="image-label">Drawn Flower Cake</div>
             </div>
             <div class="cake-info">
@@ -465,13 +487,18 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
+                <!--<button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                    Order Now
+                </button>-->
                 <button class="order-button">Order Now</button>
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <img src="pictures/bomb-cake.jpg" alt="Bomb Cake">
+                <!--<img src="../html/pictures/bomb-cake.jpg" alt="Bomb Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg">
                 <div class="image-label">Bomb Cake</div>
             </div>
             <div class="cake-info">
@@ -485,6 +512,10 @@
                     <span class="option-tag">7 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
+                <!--<button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                    Order Now
+                </button>-->
                 <button class="order-button">Order Now</button>
             </div>
         </div>
