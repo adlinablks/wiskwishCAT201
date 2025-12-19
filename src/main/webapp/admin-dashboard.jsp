@@ -619,6 +619,8 @@
     <div class="modal-content">
         <div class="modal-title" id="modalTitle">Update Quantity</div>
         <div class="modal-info" id="modalInfo"></div>
+        <!--<input type="number" class="modal-input" id="quantityInput" placeholder="Enter new quantity" min="0">-->
+        <label for="quantityInput" style="display: none;">Quantity</label>
         <input type="number" class="modal-input" id="quantityInput" placeholder="Enter new quantity" min="0">
         <div class="modal-buttons">
             <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Cancel</button>
@@ -627,7 +629,8 @@
     </div>
 </div>
 
-<form id="hiddenOrderForm" action="InventoryController" method="POST" style="display:none;">
+<!--<form id="hiddenOrderForm" action="InventoryController" method="POST" style="display:none;"> -->
+<form id="hiddenOrderForm" action="${pageContext.request.contextPath}/InventoryController" method="POST" style="display:none;">
     <input type="hidden" name="cakeId" id="formCakeId">
     <input type="hidden" name="tier" id="formTier">
     <input type="hidden" name="flavour" id="formFlavour">
