@@ -40,7 +40,7 @@ public class InventoryController extends HttpServlet {
         System.out.println("Selected Tier: " + tier);
         System.out.println("Selected Flavour: " + flavour);
         System.out.println("Selected Size: " + size);
-
+  //HI
         // 3. (Optional) Set a success message to show on the JSP
         request.getSession().setAttribute("message", "Inventory updated for " + cakeId);
 
