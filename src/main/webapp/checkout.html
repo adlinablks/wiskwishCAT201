@@ -37,7 +37,6 @@
             color: lightblue;
         }
 
-        /* ---------- PAGE ---------- */
         .container {
             max-width: 1300px;
             margin: 40px auto;
@@ -57,7 +56,6 @@
             flex-wrap: wrap;
         }
 
-        /* ---------- LEFT FORM ---------- */
         .checkout-form {
             flex: 2;
             min-width: 300px;
@@ -113,7 +111,6 @@
             border-color: lightblue;
         }
 
-        /* ---------- RIGHT SUMMARY ---------- */
         .order-summary {
             flex: 1;
             min-width: 300px;
@@ -172,7 +169,6 @@
             color: lightblue;
         }
 
-        /* ---------- BUTTONS ---------- */
         .checkout-btn {
             width: 100%;
             background-color: lightblue;
@@ -208,7 +204,6 @@
             background-color: aliceblue;
         }
 
-        /* ---------- MOBILE ---------- */
         @media (max-width: 767px) {
             .checkout-container {
                 flex-direction: column;
@@ -230,18 +225,15 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <div class="header-title">Wisk Wish</div>
 </div>
 
-<!-- CONTENT -->
 <div class="container">
     <h1 class="page-title">Checkout</h1>
 
     <div class="checkout-container">
 
-        <!-- LEFT: FORM -->
         <div class="checkout-form">
 
             <div class="form-section">
@@ -291,12 +283,10 @@
 
         </div>
 
-        <!-- RIGHT: SUMMARY -->
         <div class="order-summary">
             <div class="summary-title">Order Summary</div>
 
             <div id="order-items">
-                <!-- Cart items injected here -->
             </div>
 
             <hr class="summary-divider">
