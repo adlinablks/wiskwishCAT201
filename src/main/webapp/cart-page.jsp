@@ -1,3 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*" %>
+<%@ page import="cat201project.model.CartItem" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -416,16 +420,62 @@
     <h1 class="page-title">Shopping Cart</h1>
 
     <div class="cart-container" id="cartContainer">
-        <div class="cart-items-section" id="cartItems">
-            <!-- Cart items will be inserted here -->
+        <div class="cart-items-section">
+            <%
+                List<cat201project.model.CartItem> cart =
+                        (List<CartItem>) session.getAttribute("cart");
+
+                double subtotal = 0;
+
+                if (cart == null || cart.isEmpty()) {
+            %>
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <div class="empty-cart-text">Your cart is empty</div>
+            </div>
+            <%
+            } else {
+                for (cat201project.model.CartItem item : cart) {
+                    subtotal += item.getTotalPrice();
+            %>
+            <div class="cart-item">
+                <div class="item-image">
+                    <img src="<%= item.getImage() %>">
+                </div>
+
+                <div class="item-details">
+                    <div class="item-name"><%= item.getName() %></div>
+                    <div class="item-id"><%= item.getId() %></div>
+                    <div class="item-options">
+                        Flavor: <%= item.getFlavor() %>, Tier: <%= item.getTier() %>, Size: <%= item.getSize() %> inch
+                    </div>
+                    <div class="item-price">
+                        RM <%= String.format("%.2f", item.getTotalPrice()) %>
+                    </div>
+                </div>
+
+
+                <div class="item-actions">
+                    <div class="qty-display">Qty: <%= item.getQuantity() %></div>
+                </div>
+            </div>
+            <%
+                    }
+                }
+                double tax = subtotal * 0.06;
+                double total = subtotal + tax + 15;
+            %>
         </div>
+
 
         <div class="cart-summary">
             <div class="summary-title">Order Summary</div>
 
             <div class="summary-row">
                 <span class="summary-label">Subtotal</span>
-                <span class="summary-value" id="subtotal">RM0.00</span>
+                <span class="summary-value">
+    RM <%= String.format("%.2f", subtotal) %>
+</span>
             </div>
 
             <div class="summary-row">
@@ -435,18 +485,27 @@
 
             <div class="summary-row">
                 <span class="summary-label">Tax (6%)</span>
-                <span class="summary-value" id="tax">RM0.00</span>
+                <span class="summary-value">
+    RM <%= String.format("%.2f", tax) %>
+</span>
             </div>
 
             <hr class="summary-divider">
 
             <div class="summary-total">
                 <span class="total-label">Total</span>
-                <span class="total-value" id="total">RM0.00</span>
+                <span class="total-value">
+    RM <%= String.format("%.2f", total) %>
+</span>
             </div>
 
-            <button class="checkout-btn" onclick="checkout()">PROCEED TO CHECKOUT</button>
-            <button class="continue-shopping" onclick="continueShopping()">CONTINUE SHOPPING</button>
+            <form action="checkout.jsp" method="get">
+                <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
+            </form>
+
+            <form action="homepage.jsp" method="get">
+                <button type="submit" class="continue-shopping">CONTINUE SHOPPING</button>
+            </form>
         </div>
     </div>
 </div>
@@ -459,5 +518,7 @@
         </div>
     </div>
 </div>
+
+
 </body>
 </html>

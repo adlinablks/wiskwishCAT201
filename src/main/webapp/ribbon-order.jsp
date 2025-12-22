@@ -1,9 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bomb Cake - Wisk Wish</title>
+    <title>Ribbon Cake - Wisk Wish</title>
     <style>
         * {
             margin: 0;
@@ -327,19 +329,20 @@
 <div class="product-container">
     <div class="product-image-section">
         <div class="main-image">
-            <img src="pictures/bomb-cake.jpg" alt="Bomb Cake">
+            <img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">
         </div>
     </div>
 
     <div class="product-details-section">
-        <div class="product-category">C06</div>
-        <h1 class="product-title">Bomb Cake</h1>
-        <div class="product-price" id="price">RM129.99</div>
+        <div class="product-category">C01</div>
+        <h1 class="product-title">Ribbon Cake</h1>
+        <div class="product-price" id="price">RM104.99</div>
 
         <div class="option-group">
             <label class="option-label">Tier:</label>
             <div class="tier-options">
                 <button class="tier-option selected" data-tier="1">1 Tier</button>
+                <button class="tier-option" data-tier="2">2 Tiers</button>
             </div>
         </div>
 
@@ -347,6 +350,7 @@
             <label class="option-label">Size:</label>
             <div class="size-options">
                 <button class="size-option selected" data-size="7">7 inch</button>
+                <button class="size-option" data-size="10">10 inch</button>
             </div>
         </div>
 
@@ -359,18 +363,29 @@
         </div>
 
         <p class="product-description">
-            Explosive surprise cake that reveals hidden treats when cut! Perfect for those who love dramatic and fun desserts.
+            Elegant cake decorated with beautiful ribbon designs. Perfect for birthdays, anniversaries, and special occasions!
         </p>
 
-        <div class="stock-info">Available Stock: 10</div>
+        <div class="stock-info">Available Stock: 25</div>
 
         <div class="quantity-selector">
             <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
-            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="10">
+            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="25">
             <button class="quantity-btn" onclick="increaseQuantity()">+</button>
         </div>
+        <form action="addToCart" method="post">
+            <input type="hidden" name="productId" value="C03">
+            <input type="hidden" name="productName" value="Real Flower Cake">
+            <input type="hidden" name="price" value="159.99">
 
-        <button class="add-to-cart-btn">ADD TO CART</button>
+            <input type="hidden" name="tier" value="1">
+            <input type="hidden" name="size" value="10">
+            <input type="hidden" name="flavor" id="selectedFlavor">
+
+            <input type="hidden" name="quantity" id="hiddenQuantity">
+
+            <button type="submit" class="add-to-cart-btn">ADD TO CART</button>
+        </form>
     </div>
 </div>
 

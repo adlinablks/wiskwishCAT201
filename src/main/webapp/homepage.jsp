@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -353,7 +354,10 @@
             <a class="nav-link" href="#about">About</a>
             <a class="nav-link" href="#contact">Contact</a>
         </div>
-        <button class="login-button" onclick="alert('Login feature coming soon!')">Login</button>
+        <button class="login-button"
+                onclick="location.href='${pageContext.request.contextPath}/login.jsp'">
+            Login
+        </button>
     </div>
 </div>
 
@@ -386,11 +390,11 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
-                <!--<button class="order-button"
-                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                <button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/ribbon-order.jsp'">
                     Order Now
-                </button>-->
-                <button class="order-button">Order Now</button>
+                </button>
+
             </div>
         </div>
 
@@ -411,11 +415,10 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
-                <!--<button class="order-button"
-                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                <button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/stitch-order.jsp'">
                     Order Now
-                </button>-->
-                <button class="order-button">Order Now</button>
+                </button>
             </div>
         </div>
 
@@ -436,11 +439,11 @@
                     <span class="option-tag">10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
-                <!--<button class="order-button"
-                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+             <button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/real-flower.jsp'">
                     Order Now
-                </button>-->
-                <button class="order-button">Order Now</button>
+                </button>
+
             </div>
         </div>
 
@@ -462,11 +465,10 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
-                <!--<button class="order-button"
-                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                <button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/fox-cake.jsp'">
                     Order Now
-                </button>-->
-                <button class="order-button">Order Now</button>
+                </button>
             </div>
         </div>
 
@@ -487,11 +489,11 @@
                     <span class="option-tag">7-10 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
-                <!--<button class="order-button"
-                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                <button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/drawn-flower.jsp'">
                     Order Now
-                </button>-->
-                <button class="order-button">Order Now</button>
+                </button>
+
             </div>
         </div>
 
@@ -512,11 +514,11 @@
                     <span class="option-tag">7 inch</span>
                     <span class="option-tag">Vanilla/Chocolate</span>
                 </div>
-                <!--<button class="order-button"
-                        onclick="location.href='${pageContext.request.contextPath}/pergicart'">
+                <button class="order-button"
+                        onclick="location.href='${pageContext.request.contextPath}/bomb-cake.jsp'">
                     Order Now
-                </button>-->
-                <button class="order-button">Order Now</button>
+                </button>
+
             </div>
         </div>
     </div>

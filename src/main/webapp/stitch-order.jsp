@@ -1,9 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ribbon Cake - Wisk Wish</title>
+    <title>Stitch Cake - Wisk Wish</title>
     <style>
         * {
             margin: 0;
@@ -327,14 +329,14 @@
 <div class="product-container">
     <div class="product-image-section">
         <div class="main-image">
-            <img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">
+            <img src="pictures/stitch-cake.jpg" alt="Stitch Cake">
         </div>
     </div>
 
     <div class="product-details-section">
-        <div class="product-category">C01</div>
-        <h1 class="product-title">Ribbon Cake</h1>
-        <div class="product-price" id="price">RM104.99</div>
+        <div class="product-category">C02</div>
+        <h1 class="product-title">Stitch Cake</h1>
+        <div class="product-price" id="price">RM109.99</div>
 
         <div class="option-group">
             <label class="option-label">Tier:</label>
@@ -361,14 +363,14 @@
         </div>
 
         <p class="product-description">
-            Elegant cake decorated with beautiful ribbon designs. Perfect for birthdays, anniversaries, and special occasions!
+            Adorable character cake that brings joy to any party. Perfect for Disney fans!
         </p>
 
-        <div class="stock-info">Available Stock: 25</div>
+        <div class="stock-info">Available Stock: 18</div>
 
         <div class="quantity-selector">
             <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
-            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="25">
+            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="18">
             <button class="quantity-btn" onclick="increaseQuantity()">+</button>
         </div>
 
@@ -386,3 +388,4 @@
 </div>
 </body>
 </html>
+<--!pull-->

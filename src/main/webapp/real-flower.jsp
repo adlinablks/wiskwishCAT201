@@ -1,9 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drawn Flower Cake - Wisk Wish</title>
+    <title>Real Flower Cake - Wisk Wish</title>
     <style>
         * {
             margin: 0;
@@ -327,51 +329,69 @@
 <div class="product-container">
     <div class="product-image-section">
         <div class="main-image">
-            <img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
+            <img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
         </div>
     </div>
 
     <div class="product-details-section">
-        <div class="product-category">C05</div>
-        <h1 class="product-title">Drawn Flower Cake</h1>
-        <div class="product-price" id="price">RM119.99</div>
+        <div class="product-category">C03</div>
+        <h1 class="product-title">Real Flower Cake</h1>
+        <div class="product-price" id="price">RM159.99</div>
 
         <div class="option-group">
             <label class="option-label">Tier:</label>
             <div class="tier-options">
-                <button class="tier-option selected" data-tier="1">1 Tier</button>
+                <button type="button" class="tier-option selected" onclick="selectTier(this, '1')">1 Tier</button>
             </div>
         </div>
 
         <div class="option-group">
             <label class="option-label">Size:</label>
             <div class="size-options">
-                <button class="size-option selected" data-size="7">7 inch</button>
-                <button class="size-option" data-size="10">10 inch</button>
+                <button type="button" class="size-option selected" data-value="10" onclick="selectSize(this, '10')">10 inch</button>
             </div>
         </div>
 
         <div class="option-group">
             <label class="option-label">Flavor:</label>
             <div class="flavor-options">
-                <button class="flavor-option selected">Vanilla</button>
-                <button class="flavor-option">Chocolate</button>
+                <button type="button" class="flavor-option selected" data-value="Vanilla" onclick="selectFlavor(this, 'Vanilla')">Vanilla</button>
+                <button type="button" class="flavor-option" data-value="Chocolate" onclick="selectFlavor(this, 'Chocolate')">Chocolate</button>
             </div>
         </div>
 
         <p class="product-description">
-            Beautiful artistic cake with hand-drawn floral designs. A unique and elegant choice for any celebration.
+            Elegant cake decorated with beautiful real flowers. Perfect for weddings, anniversaries, and special celebrations.
         </p>
 
-        <div class="stock-info">Available Stock: 20</div>
+        <div class="stock-info">Available Stock: 12</div>
 
         <div class="quantity-selector">
-            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
-            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="20">
-            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
-        </div>
+            <input type="hidden" id="basePriceInput" value="159.99">
+            <button type="button" class="quantity-btn" onclick="changeQty(-1)">-</button>
+            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="12" readonly>
+            <button type="button" class="quantity-btn" onclick="changeQty(1)">+</button>
 
-        <button class="add-to-cart-btn">ADD TO CART</button>
+        </div>
+        <form action="addToCart" method="post" onsubmit="syncData()">
+
+        <!-- Fixed product data -->
+            <input type="hidden" name="id" value="C03">
+            <input type="hidden" name="name" value="Real Flower Cake">
+            <input type="hidden" name="image" value="pictures/two-tier-flower-cake.jpg">
+
+            <!-- Dynamic data (updated by JS) -->
+            <input type="hidden" name="tier" id="tierInput" value="1">
+            <input type="hidden" name="size" id="sizeInput" value="10">
+            <input type="hidden" name="flavor" id="flavorInput" value="Vanilla">
+            <input type="hidden" name="quantity" id="qtyInput" value="1">
+            <input type="hidden" name="price" id="priceInput" value="159.99">
+
+            <button type="submit" class="add-to-cart-btn">
+                ADD TO CART
+            </button>
+
+        </form>
     </div>
 </div>
 
@@ -383,5 +403,6 @@
         </div>
     </div>
 </div>
+<script src="js/product.js"></script>
 </body>
 </html>
