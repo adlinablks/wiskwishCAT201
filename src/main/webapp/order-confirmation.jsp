@@ -462,7 +462,7 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-        <a href="track-order.jsp?orderNumber=<%= orderNumber %>" class="btn btn-secondary">Track Order</a>
+        <a href="${pageContext.request.contextPath}/homepage.jsp"  class="btn btn-primary">Go Back to Homepage></a>
     </div>
 </div>
 
