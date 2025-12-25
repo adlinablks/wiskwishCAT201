@@ -337,9 +337,8 @@
         <div class="product-category">C05</div>
         <h1 class="product-title">Drawn Flower Cake</h1>
         <div class="product-price" id="price">RM119.99</div>
-
-        <form action="addToCart" method="post" onsubmit="syncData('.product-details-section')">
-            <!-- Hidden inputs -->
+<!--
+        <form action="addToCart" method="post" onsubmit="syncData('.product-details-section')"
             <input type="hidden" name="id" value="C05">
             <input type="hidden" name="name" value="Drawn Flower Cake">
             <input type="hidden" name="price" class="price-input" value="119.99">
@@ -349,32 +348,94 @@
             <input type="hidden" name="flavor" class="flavorInput" value="Vanilla">
             <input type="hidden" name="quantity" class="qtyInput" value="1">
 
-            <!-- Quantity Selector -->
+
             <div class="quantity-selector">
                 <button type="button" class="quantity-btn" onclick="changeQty(-1, '.quantity-input')">-</button>
                 <input type="number" class="quantity-input" value="1" min="1" data-max="20">
                 <button type="button" class="quantity-btn" onclick="changeQty(1, '.quantity-input')">+</button>
             </div>
 
-            <!-- Tier Options -->
+
             <div class="tier-options">
                 <button type="button" class="tier-option selected" data-value="1" onclick="selectOption(this, 'tier-option', 'tierInput')">1 Tier</button>
             </div>
 
-            <!-- Size Options -->
+
             <div class="size-options">
                 <button type="button" class="size-option selected" data-value="7" onclick="selectOption(this, 'size-option', 'sizeInput')">7 inch</button>
                 <button type="button" class="size-option" data-value="10" onclick="selectOption(this, 'size-option', 'sizeInput')">10 inch</button>
             </div>
 
-            <!-- Flavor Options -->
+
             <div class="flavor-options">
                 <button type="button" class="flavor-option selected" onclick="selectOption(this, 'flavor-option', 'flavorInput')">Vanilla</button>
                 <button type="button" class="flavor-option" onclick="selectOption(this, 'flavor-option', 'flavorInput')">Chocolate</button>
             </div>
 
             <button type="submit" class="add-to-cart-btn">ADD TO CART</button>
+        </form>-->
+
+        <!-- Product Options -->
+        <!-- Base price (required by JS) -->
+        <input type="hidden" id="basePriceInput" value="119.99">
+
+        <!-- Tier -->
+        <div class="option-group">
+            <label class="option-label">Tier:</label>
+            <div class="tier-options">
+                <button type="button" class="tier-option selected" onclick="selectTier(this, '1')">1 Tier</button>
+            </div>
+        </div>
+
+        <!-- Size -->
+        <div class="option-group">
+            <label class="option-label">Size:</label>
+            <div class="size-options">
+                <button type="button"
+                        class="size-option selected" onclick="selectSize(this, '7')">7 inch </button>
+                <button type="button" class="size-option" onclick="selectSize(this, '10')">10 inch</button>
+            </div>
+        </div>
+
+        <!-- Flavor -->
+        <div class="option-group">
+            <label class="option-label">Flavor:</label>
+            <div class="flavor-options">
+                <button type="button" class="flavor-option selected" onclick="selectFlavor(this, 'Vanilla')">
+                    Vanilla
+                </button>
+                <button type="button" class="flavor-option" onclick="selectFlavor(this, 'Chocolate')">Chocolate</button>
+            </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="quantity-selector">
+            <button type="button" class="quantity-btn" onclick="changeQty(-1)">-</button>
+            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="20" readonly>
+            <button type="button" class="quantity-btn" onclick="changeQty(1)">+</button>
+        </div>
+
+        <!-- Add to Cart -->
+        <form action="addToCart" method="post" onsubmit="syncData()">
+
+            <!-- Fixed product data -->
+            <input type="hidden" name="id" value="C05">
+            <input type="hidden" name="name" value="Drawn Flower Cake">
+            <input type="hidden" name="image" value="pictures/drawing-flower-cake.jpg">
+
+            <!-- Dynamic data (used by JS) -->
+            <input type="hidden" name="tier" id="tierInput" value="1">
+            <input type="hidden" name="size" id="sizeInput" value="7">
+            <input type="hidden" name="flavor" id="flavorInput" value="Vanilla">
+            <input type="hidden" name="quantity" id="qtyInput" value="1">
+            <input type="hidden" name="price" id="priceInput" value="119.99">
+
+            <button type="submit" class="add-to-cart-btn">
+                ADD TO CART
+            </button>
         </form>
+
+
     </div>
 </div>
 
@@ -386,5 +447,6 @@
         </div>
     </div>
 </div>
+<script src="js/product.js"></script>
 </body>
 </html>
