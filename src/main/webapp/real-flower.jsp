@@ -317,10 +317,10 @@
     <div class="header-title">Wisk Wish</div>
     <div class="header-right">
         <div class="nav-links">
-            <a class="nav-link" href="#home">Home</a>
-            <a class="nav-link" href="#cakes">Our Cakes</a>
-            <a class="nav-link" href="#about">About</a>
-            <a class="nav-link" href="#contact">Contact</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#home">Home</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#cakes">Our Cakes</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#about">About</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#contact">Contact</a>
         </div>
         <button class="login-button">Login</button>
     </div>
