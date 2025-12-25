@@ -637,7 +637,7 @@
     <input type="hidden" name="size" id="formSize">
 </form>
 
-<script src="${pageContext.request.contextPath}/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/js/product.js"></script>
 
 </body>
 </html>

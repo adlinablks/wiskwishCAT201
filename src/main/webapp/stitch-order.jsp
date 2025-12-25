@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -336,27 +338,29 @@
         <h1 class="product-title">Stitch Cake</h1>
         <div class="product-price" id="price">RM109.99</div>
 
+        <input type="hidden" id="basePriceInput" value ="109.99">
         <div class="option-group">
             <label class="option-label">Tier:</label>
             <div class="tier-options">
-                <button class="tier-option selected" data-tier="1">1 Tier</button>
-                <button class="tier-option" data-tier="2">2 Tiers</button>
+                <button type="button" class="tier-option selected" onclick="selectTier(this,'1')" >1 Tier</button>
+                <button type="button" class="tier-option" onclick="selectTier(this,'2')" >2 Tier</button>
             </div>
         </div>
 
         <div class="option-group">
             <label class="option-label">Size:</label>
             <div class="size-options">
-                <button class="size-option selected" data-size="7">7 inch</button>
-                <button class="size-option" data-size="10">10 inch</button>
+                <button type="button" class="size-option selected" onclick="selectSize(this, '7')">7 inch </button>
+                <button type="button" class="size-option" onclick="selectSize(this, '10')">10 inch</button>
+
             </div>
         </div>
 
         <div class="option-group">
             <label class="option-label">Flavor:</label>
             <div class="flavor-options">
-                <button class="flavor-option selected">Vanilla</button>
-                <button class="flavor-option">Chocolate</button>
+                <button type="button" class="flavor-option selected" onclick="selectFlavor(this, 'Vanilla')">Vanilla</button>
+                <button type="button" class="flavor-option" onclick="selectFlavor(this, 'Chocolate')">Chocolate</button>
             </div>
         </div>
 
@@ -367,12 +371,29 @@
         <div class="stock-info">Available Stock: 18</div>
 
         <div class="quantity-selector">
-            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
-            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="18">
-            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+            <button type="button" class="quantity-btn" onclick="changeQty(-1)">-</button>
+            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="18" readonly>
+            <button type="button" class="quantity-btn" onclick="changeQty(1)">+</button>
         </div>
 
-        <button class="add-to-cart-btn">ADD TO CART</button>
+        <form action="addToCart" method="post" onsubmit="syncData()">
+
+            <!-- Fixed product data -->
+            <input type="hidden" name="id" value="C02">
+            <input type="hidden" name="name" value="Stitch Cake">
+            <input type="hidden" name="image" value="pictures/stitch-cake.jpg">
+
+            <!-- Dynamic data (used by JS) -->
+            <input type="hidden" name="tier" id="tierInput" value="1">
+            <input type="hidden" name="size" id="sizeInput" value="7">
+            <input type="hidden" name="flavor" id="flavorInput" value="Vanilla">
+            <input type="hidden" name="quantity" id="qtyInput" value="1">
+            <input type="hidden" name="price" id="priceInput" value="109.99">
+
+            <button type="submit" class="add-to-cart-btn">
+                ADD TO CART
+            </button>
+        </form>
     </div>
 </div>
 
@@ -384,6 +405,7 @@
         </div>
     </div>
 </div>
+<script src="js/product.js"></script>
 </body>
 </html>
 <--!pull-->

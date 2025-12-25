@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,7 +118,7 @@
 
     <p>
         Already have an account?
-        <a href="login.html">Login</a>
+        <a href="login.jsp">Login</a>
     </p>
 </div>
 

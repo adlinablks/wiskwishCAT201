@@ -1,3 +1,23 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*" %>
+<%@ page import="cat201project.model.CartItem" %>
+<%
+    List<cat201project.model.CartItem> cart =
+            (List<cat201project.model.CartItem>) session.getAttribute("cart");
+
+    double subtotal = 0;
+    if(cart != null) {
+        for(CartItem item : cart) {
+            subtotal += item.getTotalPrice();
+        }
+    }
+
+    double tax = subtotal * 0.06; // 6% tax
+    double delivery = 15; // same delivery fee as cart page
+    double total = subtotal + tax + delivery;
+%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -286,27 +306,46 @@
             <div class="summary-title">Order Summary</div>
 
             <div id="order-items">
+                <% if(cart == null || cart.isEmpty()) { %>
+                <div>Your cart is empty</div>
+                <% } else {
+                    for(CartItem item : cart) { %>
+                <div class="summary-row">
+                    <span class="summary-label"><%= item.getName() %> (x<%= item.getQuantity() %>)</span>
+                    <span class="summary-value">RM <%= String.format("%.2f", item.getTotalPrice()) %></span>
+                </div>
+                <%  }
+                } %>
+
             </div>
+
 
             <hr class="summary-divider">
 
             <div class="summary-row">
                 <span class="summary-label">Subtotal</span>
-                <span class="summary-value">RM 0.00</span>
+                <span class="summary-value">RM <%= String.format("%.2f", subtotal) %></span>
             </div>
 
             <div class="summary-row">
                 <span class="summary-label">Delivery</span>
-                <span class="summary-value">RM 10.00</span>
+                <span class="summary-value">RM <%= String.format("%.2f", delivery) %></span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Tax (6%)</span>
+                <span class="summary-value">RM <%= String.format("%.2f", tax) %></span>
             </div>
 
             <div class="summary-total">
                 <span class="total-label">Total</span>
-                <span class="total-value">RM 0.00</span>
+                <span class="total-value">RM <%= String.format("%.2f", total) %></span>
             </div>
 
             <button class="checkout-btn">Place Order</button>
-            <button class="back-btn">Back to Cart</button>
+            <form action="cart-page.jsp" method="get">
+                <button type="submit" class="back-btn">Back to Cart</button>
+            </form>
         </div>
 
     </div>
