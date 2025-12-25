@@ -317,10 +317,10 @@
     <div class="header-title">Wisk Wish</div>
     <div class="header-right">
         <div class="nav-links">
-            <a class="nav-link" href="#home">Home</a>
-            <a class="nav-link" href="#cakes">Our Cakes</a>
-            <a class="nav-link" href="#about">About</a>
-            <a class="nav-link" href="#contact">Contact</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#home">Home</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#cakes">Our Cakes</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#about">About</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#contact">Contact</a>
         </div>
         <button class="login-button">Login</button>
     </div>
@@ -337,46 +337,7 @@
         <div class="product-category">C05</div>
         <h1 class="product-title">Drawn Flower Cake</h1>
         <div class="product-price" id="price">RM119.99</div>
-<!--
-        <form action="addToCart" method="post" onsubmit="syncData('.product-details-section')"
-            <input type="hidden" name="id" value="C05">
-            <input type="hidden" name="name" value="Drawn Flower Cake">
-            <input type="hidden" name="price" class="price-input" value="119.99">
-            <input type="hidden" name="image" value="pictures/drawing-flower-cake.jpg">
-            <input type="hidden" name="tier" class="tierInput" value="1">
-            <input type="hidden" name="size" class="sizeInput" value="7">
-            <input type="hidden" name="flavor" class="flavorInput" value="Vanilla">
-            <input type="hidden" name="quantity" class="qtyInput" value="1">
 
-
-            <div class="quantity-selector">
-                <button type="button" class="quantity-btn" onclick="changeQty(-1, '.quantity-input')">-</button>
-                <input type="number" class="quantity-input" value="1" min="1" data-max="20">
-                <button type="button" class="quantity-btn" onclick="changeQty(1, '.quantity-input')">+</button>
-            </div>
-
-
-            <div class="tier-options">
-                <button type="button" class="tier-option selected" data-value="1" onclick="selectOption(this, 'tier-option', 'tierInput')">1 Tier</button>
-            </div>
-
-
-            <div class="size-options">
-                <button type="button" class="size-option selected" data-value="7" onclick="selectOption(this, 'size-option', 'sizeInput')">7 inch</button>
-                <button type="button" class="size-option" data-value="10" onclick="selectOption(this, 'size-option', 'sizeInput')">10 inch</button>
-            </div>
-
-
-            <div class="flavor-options">
-                <button type="button" class="flavor-option selected" onclick="selectOption(this, 'flavor-option', 'flavorInput')">Vanilla</button>
-                <button type="button" class="flavor-option" onclick="selectOption(this, 'flavor-option', 'flavorInput')">Chocolate</button>
-            </div>
-
-            <button type="submit" class="add-to-cart-btn">ADD TO CART</button>
-        </form>-->
-
-        <!-- Product Options -->
-        <!-- Base price (required by JS) -->
         <input type="hidden" id="basePriceInput" value="119.99">
 
         <!-- Tier -->
