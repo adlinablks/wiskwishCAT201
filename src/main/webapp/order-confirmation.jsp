@@ -87,7 +87,7 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .success-icon {
+       <%-- .success-icon {
             width: 80px;
             height: 80px;
             background-color: #4CAF50;
@@ -99,7 +99,8 @@
             font-size: 45px;
             color: white;
             animation: scaleIn 0.5s ease-out;
-        }
+        } --%>
+
 
         @keyframes scaleIn {
             from {
@@ -374,17 +375,13 @@
 <div class="container">
     <!-- Success Banner -->
     <div class="success-banner">
-        <div class="success-icon">✓</div>
+        <%--<div class="success-icon">✓</div> --%>
         <h1>Order Successfully Placed!</h1>
         <div class="status-badge">Payment Confirmed</div>
         <div class="order-number">
             Order Number: <strong><%= orderNumber %></strong>
         </div>
         <div class="order-date"><%= orderDate %></div>
-        <p class="confirmation-message">
-            Thank you for your purchase! A confirmation email has been sent to <strong><%= email %></strong>.
-            You can track your order using the order number above.
-        </p>
     </div>
 
     <!-- Order Items -->
