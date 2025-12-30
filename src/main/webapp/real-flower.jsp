@@ -322,7 +322,9 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#about">About</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#contact">Contact</a>
         </div>
-        <button class="login-button">Login</button>
+        <button class="login-button" onclick="location.href='${pageContext.request.contextPath}/login.jsp'">
+            Login
+        </button>
     </div>
 </div>
 
@@ -373,9 +375,7 @@
             <button type="button" class="quantity-btn" onclick="changeQty(1)">+</button>
 
         </div>
-        <form action="addToCart" method="post" onsubmit="syncData()">
-
-        <!-- Fixed product data -->
+            <form action="${pageContext.request.contextPath}/addToCart" method="post" onsubmit="syncData()">
             <input type="hidden" name="id" value="C03">
             <input type="hidden" name="name" value="Real Flower Cake">
             <input type="hidden" name="image" value="pictures/two-tier-flower-cake.jpg">

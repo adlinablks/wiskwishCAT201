@@ -103,7 +103,7 @@
 <div class="container">
     <h2>Create Account</h2>
 
-    <form>
+    <form action="SignupServlet" method="post">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
 
