@@ -1,16 +1,21 @@
-# Stage 1: Build
+# Stage 1: Build the project
 FROM maven:3.8.5-openjdk-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run
-FROM eclipse-temurin:17-jdk-alpine
-WORKDIR /app
+# Stage 2: Run it in Tomcat
+# We use a specific Tomcat version compatible with Java 17
+FROM tomcat:9.0.86-jdk17-temurin
 
-# FIX 1: Look for any file ending in .war (instead of .jar)
-# FIX 2: Rename it to app.war
-COPY --from=build /target/*.war /app/app.war
+# 1. Clean up default Tomcat apps (so your site is the only one)
+RUN rm -rf /usr/local/tomcat/webapps/*
 
+# 2. Copy your WAR file to the "ROOT" folder
+# Renaming it to ROOT.war makes it load at your main website URL
+COPY --from=build /target/*.war /usr/local/tomcat/webapps/ROOT.war
+
+# 3. Open the port (Tomcat uses 8080 by default)
 EXPOSE 8080
-# FIX 3: Run the .war file
-ENTRYPOINT ["java", "-jar", "/app/app.war"]
+
+# 4. Start Tomcat
+CMD ["catalina.sh", "run"]
