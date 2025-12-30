@@ -351,8 +351,7 @@
 <body>
 <div class="header">
     <div class="header-title">
-        <img src="${pageContext.request.contextPath}/pictures/logowisk.png" alt="Logo Wisk" class="logo">
-        Wisk Wish
+        <img src="${pageContext.request.contextPath}/pictures/logowiskwish.png" alt="Logo Wisk" class="logo">
     </div>
 
     <div class="header-right">
