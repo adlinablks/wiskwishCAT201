@@ -529,7 +529,6 @@
         <div class="inventory-item">
             <div class="item-image">
                 <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
-                <!--<img src="pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">-->
             </div>
             <div class="item-details">
                 <div class="item-id">C05</div>
@@ -615,12 +614,12 @@
 </div>
 
 <!--<form id="hiddenOrderForm" action="InventoryController" method="POST" style="display:none;"> -->
-<form id="hiddenOrderForm" action="${pageContext.request.contextPath}/InventoryController" method="POST" style="display:none;">
+<!--<form id="hiddenOrderForm" action="${pageContext.request.contextPath}/InventoryController" method="POST" style="display:none;">
     <input type="hidden" name="cakeId" id="formCakeId">
     <input type="hidden" name="tier" id="formTier">
     <input type="hidden" name="flavour" id="formFlavour">
     <input type="hidden" name="size" id="formSize">
-</form>
+</form>-->
 
 <script src="${pageContext.request.contextPath}/js/product.js"></script>
 
