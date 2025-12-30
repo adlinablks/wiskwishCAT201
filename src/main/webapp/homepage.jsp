@@ -29,12 +29,16 @@
             z-index: 100;
         }
 
-        .header-title{
-            font-size: 25px;
-            font-weight: bold;
-            color: lightblue;
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
+        .logo {
+            height: 32px;
+            width: auto;
+        }
         .header-right{
             display: flex;
             gap: 20px;
@@ -346,7 +350,11 @@
 </head>
 <body>
 <div class="header">
-    <div class="header-title">Wisk Wish</div>
+    <div class="header-title">
+        <img src="${pageContext.request.contextPath}/pictures/logowisk.png" alt="Logo Wisk" class="logo">
+        Wisk Wish
+    </div>
+
     <div class="header-right">
         <div class="nav-links">
             <a class="nav-link" href="#home">Home</a>
@@ -354,12 +362,14 @@
             <a class="nav-link" href="#about">About</a>
             <a class="nav-link" href="#contact">Contact</a>
         </div>
+
         <button class="login-button"
                 onclick="location.href='${pageContext.request.contextPath}/login.jsp'">
             Login
         </button>
     </div>
 </div>
+
 
 <div class="hero-section" id="home">
     <h1 class="hero-title">Make Your Moments Magical</h1>
