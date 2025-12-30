@@ -409,12 +409,7 @@
                 </div>
             </div>
             <div class="item-stock">Total: 25</div>
-            <!--<button class="update-button">Update Quantity</button>-->
-            <!--<form action="InventoryController" method="get">-->
-            <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C01">
-                <button class="update-button" type="submit">Update Quantity</button>
-            </form>
+            <button class="update-button">Update Quantity</button>
 
         </div>
 
@@ -451,12 +446,7 @@
                 </div>
             </div>
             <div class="item-stock">Total: 18</div>
-            <!--<button class="update-button">Update Quantity</button>-->
-            <!--<form action="InventoryController" method="get">-->
-            <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C02">
-                <button class="update-button" type="submit">Update Quantity</button>
-            </form>
+            <button class="update-button">Update Quantity</button>
 
         </div>
 
@@ -491,12 +481,7 @@
                 </div>
             </div>
             <div class="item-stock">Total: 12</div>
-            <!--<button class="update-button">Update Quantity</button>-->
-            <!--<form action="InventoryController" method="get">-->
-            <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C03">
-                <button class="update-button" type="submit">Update Quantity</button>
-            </form>
+            <button class="update-button">Update Quantity</button>
 
         </div>
 
@@ -533,13 +518,8 @@
                 </div>
             </div>
             <div class="item-stock">Total: 15</div>
-            <!--<form action="InventoryController" method="get">-->
-                <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C04">
-                <button class="update-button" type="submit">Update Quantity</button>
-            </form>
+            <button class="update-button">Update Quantity</button>
 
-            <!--<button class="update-button">Update Quantity</button>-->
         </div>
 
         <div class="inventory-item">
@@ -574,12 +554,7 @@
                 </div>
             </div>
             <div class="item-stock">Total: 20</div>
-            <!--<button class="update-button">Update Quantity</button>-->
-            <!--<form action="InventoryController" method="get">-->
-            <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C05">
-                <button class="update-button" type="submit">Update Quantity</button>
-            </form>
+            <button class="update-button">Update Quantity</button>
 
         </div>
 
@@ -615,13 +590,7 @@
                 </div>
             </div>
             <div class="item-stock">Total: 10</div>
-            <!--try replace dgn button java-controlled action-->
-            <!--<button class="update-button">Update Quantity</button>-->
-            <!--<form action="InventoryController" method="get">-->
-            <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C06">
-                <button class="update-button" type="submit">Update Quantity</button>
-            </form>
+            <button class="update-button">Update Quantity</button>
 
         </div>
     </div>

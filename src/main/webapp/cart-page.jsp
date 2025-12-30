@@ -513,11 +513,6 @@
             </form>
             <% } %>
 
-            <!--<form action="login.jsp" method="get">
-                <input type="hidden" name="redirect" value="checkout.jsp">
-                <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
-            </form>-->
-
             <form action="homepage.jsp" method="get">
                 <button type="submit" class="continue-shopping">CONTINUE SHOPPING</button>
             </form>
