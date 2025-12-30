@@ -529,29 +529,29 @@
 
     <div class="features-grid">
         <div class="feature-item">
-            <div class="feature-title">Moto</div>
+            <div class="feature-title">Motto</div>
             <div class="feature-text">
-                Our moto is ... </div>
+                Whisking up happiness, one bite at a time </div>
         </div>
 
         <div class="feature-item">
             <div class="feature-title">Vision</div>
             <div class="feature-text">
-                Our vision is...
+                To become the go-to destination for premium, handcrafted desserts that bring people together
             </div>
         </div>
 
         <div class="feature-item">
             <div class="feature-title">Target</div>
             <div class="feature-text">
-                Our target is...
+                To deliver high-quality, halal, and beautiful treats that make every celebration memorable
             </div>
         </div>
 
         <div class="feature-item">
-            <div class="feature-title">KIV</div>
+            <div class="feature-title">Our Story</div>
             <div class="feature-text">
-                Taktau nak tulis apa...
+                Started from a small home kitchen in 2025 with just a whisk and a dream
             </div>
         </div>
     </div>
