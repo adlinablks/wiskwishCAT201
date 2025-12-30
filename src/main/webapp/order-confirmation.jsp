@@ -462,7 +462,7 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-        <a href="${pageContext.request.contextPath}/homepage.jsp"  class="btn btn-primary">Go Back to Homepage></a>
+        <a href="${pageContext.request.contextPath}/homepage.jsp"  class="btn btn-primary">Go Back to Homepage</a>
     </div>
 </div>
 

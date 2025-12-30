@@ -33,12 +33,18 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: lightblue;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
         .logo {
             height: 32px;
             width: auto;
         }
+
         .header-right{
             display: flex;
             gap: 20px;
@@ -236,38 +242,105 @@
             background-color: #4fc3f7;
         }
 
+        /* Enhanced Features Section */
         .features-section {
             max-width: 1300px;
             margin: 80px auto;
-            padding: 40px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            gap: 40px;
             margin-top: 30px;
         }
 
         .feature-item {
             text-align: center;
-            padding: 20px;
+            padding: 30px 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(173, 216, 230, 0.15);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(173, 216, 230, 0.3);
+            border-color: lightblue;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-item:nth-child(1) .feature-icon {
+            animation-delay: 0s;
+        }
+
+        .feature-item:nth-child(2) .feature-icon {
+            animation-delay: 0.5s;
+        }
+
+        .feature-item:nth-child(3) .feature-icon {
+            animation-delay: 1s;
+        }
+
+        .feature-item:nth-child(4) .feature-icon {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .feature-title {
-            font-size: 18px;
+            font-size: 22px;
             color: lightblue;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .feature-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, lightblue, transparent);
+            border-radius: 2px;
         }
 
         .feature-text {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+            margin-top: 15px;
         }
 
         .footer {
@@ -337,8 +410,30 @@
                 grid-template-columns: 1fr;
             }
 
+            .features-section {
+                padding: 40px 25px;
+                margin: 60px 20px;
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .feature-item {
+                padding: 25px 20px;
+            }
+
+            .feature-icon {
+                font-size: 42px;
+            }
+
+            .feature-title {
+                font-size: 20px;
+            }
+
+            .feature-text {
+                font-size: 14px;
             }
 
             .footer-content {
@@ -369,7 +464,6 @@
     </div>
 </div>
 
-
 <div class="hero-section" id="home">
     <h1 class="hero-title">Make Your Moments Magical</h1>
     <p class="hero-subtitle">Custom-made cakes for every special occasion</p>
@@ -384,7 +478,6 @@
     <div class="cake-grid">
         <div class="cake-card">
             <div class="cake-image">
-                <!--<img src="../html/pictures/ribbon-cake.jpg" alt="Ribbon Cake">-->
                 <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg" alt="Ribbon Cake">
                 <div class="image-label">Ribbon Cake</div>
             </div>
@@ -403,13 +496,11 @@
                         onclick="location.href='${pageContext.request.contextPath}/ribbon-order.jsp'">
                     Order Now
                 </button>
-
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <!--<img src="../html/pictures/stitch-cake.jpg" alt="Stitch Cake">-->
                 <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg" alt="Stitch Cake" >
                 <div class="image-label">Stitch Cake</div>
             </div>
@@ -433,7 +524,6 @@
 
         <div class="cake-card">
             <div class="cake-image">
-                <!--<img src="../html/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">-->
                 <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
                 <div class="image-label">Real Flower Cake</div>
             </div>
@@ -452,15 +542,12 @@
                         onclick="location.href='${pageContext.request.contextPath}/real-flower.jsp'">
                     Order Now
                 </button>
-
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <!--<img src="../html/pictures/fox-cake.jpg" alt="Fox Cake">-->
                 <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg" alt="Fox Cake">
-
                 <div class="image-label">Fox Cake</div>
             </div>
             <div class="cake-info">
@@ -483,7 +570,6 @@
 
         <div class="cake-card">
             <div class="cake-image">
-                <!--<img src="../html/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">-->
                 <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
                 <div class="image-label">Drawn Flower Cake</div>
             </div>
@@ -502,13 +588,11 @@
                         onclick="location.href='${pageContext.request.contextPath}/drawn-flower.jsp'">
                     Order Now
                 </button>
-
             </div>
         </div>
 
         <div class="cake-card">
             <div class="cake-image">
-                <!--<img src="../html/pictures/bomb-cake.jpg" alt="Bomb Cake">-->
                 <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg" alt="Bomb Cake">
                 <div class="image-label">Bomb Cake</div>
             </div>
@@ -527,23 +611,28 @@
                         onclick="location.href='${pageContext.request.contextPath}/bomb-cake.jsp'">
                     Order Now
                 </button>
-
             </div>
         </div>
     </div>
 </div>
 
 <div class="features-section" id="about">
-    <h2 class="section-title" style="color: lightblue;">Lets get to know Wisk Wish!</h2>
+    <h2 class="section-title" style="color: lightblue; margin-bottom: 20px;">Let's get to know Wisk Wish!</h2>
+    <p class="section-subtitle">
+        We believe every celebration deserves a sweet touch of magic
+    </p>
 
     <div class="features-grid">
         <div class="feature-item">
+            <div class="feature-icon">✨</div>
             <div class="feature-title">Motto</div>
             <div class="feature-text">
-                Whisking up happiness, one bite at a time </div>
+                Whisking up happiness, one bite at a time
+            </div>
         </div>
 
         <div class="feature-item">
+            <div class="feature-icon">🎯</div>
             <div class="feature-title">Vision</div>
             <div class="feature-text">
                 To become the go-to destination for premium, handcrafted desserts that bring people together
@@ -551,6 +640,7 @@
         </div>
 
         <div class="feature-item">
+            <div class="feature-icon">🎂</div>
             <div class="feature-title">Target</div>
             <div class="feature-text">
                 To deliver high-quality, halal, and beautiful treats that make every celebration memorable
@@ -558,6 +648,7 @@
         </div>
 
         <div class="feature-item">
+            <div class="feature-icon">💝</div>
             <div class="feature-title">Our Story</div>
             <div class="feature-text">
                 Started from a small home kitchen in 2025 with just a whisk and a dream
