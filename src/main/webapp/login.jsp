@@ -1,4 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    // 1. Check if the user is already logged in
+    String userEmail = (String) session.getAttribute("userEmail");
+    String userRole = (String) session.getAttribute("userRole");
+    boolean isLoggedIn = (userEmail != null || "admin".equals(userRole));
+
+    String redirectPage = request.getParameter("redirect");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,12 +106,15 @@
         }
     </style>
 </head>
-<body>
+<!--<body>
 
 <div class="container">
     <h2>Login</h2>
 
-    <form>
+
+    <form action="LoginServlet" method="post">
+        <input type="hidden" name="redirect" value="<%= (redirectPage != null) ? redirectPage : "homepage.jsp" %>">
+
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
 
@@ -117,6 +128,44 @@
         Don’t have an account?
         <a href="signup.jsp">Sign Up</a>
     </p>
+</div>
+</body>
+</html>-->
+
+<body>
+
+<div class="container">
+    <% if (isLoggedIn) { %>
+    <div class="logged-in-msg">
+        <h2>Already Logged In</h2>
+        <p>You are currently signed in as: <br><strong><%= (userEmail != null) ? userEmail : "Admin" %></strong></p>
+        <a href="homepage.jsp" class="home-btn">Go to Home</a>
+        <p><a href="logout.jsp" style="color: lightblue; text-decoration: none; font-size: 12px;">Log out of this account</a></p>
+    </div>
+    <% } else { %>
+    <h2>Login</h2>
+
+    <% if ("invalid".equals(request.getParameter("error"))) { %>
+    <p style="color: red; text-align: center; font-size: 13px; margin-bottom: 10px;">Wrong email or password.</p>
+    <% } %>
+
+    <form action="LoginServlet" method="post">
+        <input type="hidden" name="redirect" value="<%= (redirectPage != null) ? redirectPage : "homepage.jsp" %>">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <p>
+        Don’t have an account?
+        <a href="signup.jsp">Sign Up</a>
+    </p>
+    <% } %>
 </div>
 </body>
 </html>
