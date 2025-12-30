@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    // 1. Check if the user is already logged in
     String userEmail = (String) session.getAttribute("userEmail");
     String userRole = (String) session.getAttribute("userRole");
     boolean isLoggedIn = (userEmail != null || "admin".equals(userRole));
@@ -139,7 +138,7 @@
     <div class="logged-in-msg">
         <h2>Already Logged In</h2>
         <p>You are currently signed in as: <br><strong><%= (userEmail != null) ? userEmail : "Admin" %></strong></p>
-        <a href="homepage.jsp" class="home-btn">Go to Home</a>
+        <a href="homepage.jsp" class="login-btn" style="text-decoration: none; display: block; text-align: center; margin-bottom: 15px;">Go to Home</a>
         <p><a href="logout.jsp" style="color: lightblue; text-decoration: none; font-size: 12px;">Log out of this account</a></p>
     </div>
     <% } else { %>
