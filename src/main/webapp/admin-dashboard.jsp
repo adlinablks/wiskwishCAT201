@@ -1,8 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    // Check if the user is logged in as an admin
+    String userRole = (String) session.getAttribute("userRole");
+
+    if (userRole == null || !userRole.equals("admin")) {
+        // If not admin, send them back to login page
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <--!comment-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Wisk Wish</title>
@@ -352,7 +363,7 @@
     <div class="header-title">Wisk Wish Dashboard</div>
     <div class="header-right">
         <span class="admin-text">Admin</span>
-        <button class="logout-button">Logout</button>
+        <button class="logout-button" onclick="location.href='logout.jsp'">Logout</button>
     </div>
 </div>
 

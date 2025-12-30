@@ -376,7 +376,6 @@
 
         </div>
             <form action="${pageContext.request.contextPath}/addToCart" method="post" onsubmit="syncData()">
-
             <input type="hidden" name="id" value="C03">
             <input type="hidden" name="name" value="Real Flower Cake">
             <input type="hidden" name="image" value="pictures/two-tier-flower-cake.jpg">

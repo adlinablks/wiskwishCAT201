@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*" %>
 <%@ page import="cat201project.model.CartItem" %>
+<%
+    String loggedInUser = (String) session.getAttribute("userEmail");
+    boolean userIsLoggedIn = (loggedInUser != null);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -495,13 +499,24 @@
             <div class="summary-total">
                 <span class="total-label">Total</span>
                 <span class="total-value">
-    RM <%= String.format("%.2f", total) %>
-</span>
+    RM <%= String.format("%.2f", total) %></span>
             </div>
 
+            <% if (userIsLoggedIn) { %>
             <form action="checkout.jsp" method="get">
                 <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
             </form>
+            <% } else { %>
+            <form action="login.jsp" method="get">
+                <input type="hidden" name="redirect" value="checkout.jsp">
+                <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
+            </form>
+            <% } %>
+
+            <!--<form action="login.jsp" method="get">
+                <input type="hidden" name="redirect" value="checkout.jsp">
+                <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
+            </form>-->
 
             <form action="homepage.jsp" method="get">
                 <button type="submit" class="continue-shopping">CONTINUE SHOPPING</button>
