@@ -416,7 +416,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#about">About</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/homepage.jsp#contact">Contact</a>
         </div>
-        <button class="login-button">Login</button>
+        <!--<button class="login-button">Login</button>-->
     </div>
 </div>
 
