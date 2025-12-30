@@ -5,9 +5,12 @@ RUN mvn clean package -DskipTests
 
 # Stage 2: Run
 FROM eclipse-temurin:17-jdk-alpine
-# FIX: Create a specific working directory so we know exactly where we are
 WORKDIR /app
-# FIX: Copy the jar specifically into this folder
-COPY --from=build /target/*.jar app.jar
+
+# FIX 1: Look for any file ending in .war (instead of .jar)
+# FIX 2: Rename it to app.war
+COPY --from=build /target/*.war /app/app.war
+
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+# FIX 3: Run the .war file
+ENTRYPOINT ["java", "-jar", "/app/app.war"]
