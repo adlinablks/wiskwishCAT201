@@ -379,7 +379,7 @@
         <div class="inventory-item">
             <div class="item-image">
                 <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg" alt="Ribbon Cake">
-                <!--<img src="pictures/ribbon-cake.jpg" alt="Ribbon Cake">-->
+
             </div>
             <div class="item-details">
                 <div class="item-id">C01</div>
@@ -518,11 +518,7 @@
                 </div>
             </div>
             <div class="item-stock">Total: 15</div>
-            <!--<form action="InventoryController" method="get">-->
-            <form action="${pageContext.request.contextPath}/InventoryController" method="get">
-                <input type="hidden" name="cakeId" value="C04">
                 <button class="update-button" type="submit">Update Quantity</button>
-            </form>
 
         </div>
 
