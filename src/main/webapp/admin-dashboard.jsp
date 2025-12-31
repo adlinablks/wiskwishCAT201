@@ -411,6 +411,8 @@
             <div class="item-stock">Total: 25</div>
             <button class="update-button">Update Quantity</button>
 
+
+
         </div>
 
         <div class="inventory-item">
