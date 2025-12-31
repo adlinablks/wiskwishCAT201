@@ -1,49 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.List" %>
 <%@ page import="cat201project.model.CartItem" %>
 <%
-    // Get customer info from checkout
-    String firstName = request.getParameter("firstName");
-    String lastName = request.getParameter("lastName");
-    String email = request.getParameter("email");
-    String phone = request.getParameter("phone");
-    String address = request.getParameter("address");
-    String city = request.getParameter("city");
-    String postalCode = request.getParameter("postalCode");
-
-    // Store in session for order confirmation
-    session.setAttribute("customerFirstName", firstName);
-    session.setAttribute("customerLastName", lastName);
-    session.setAttribute("customerEmail", email);
-    session.setAttribute("customerPhone", phone);
-    session.setAttribute("customerAddress", address);
-    session.setAttribute("customerCity", city);
-    session.setAttribute("customerPostalCode", postalCode);
-
-    // Get order totals
-    String subtotalStr = request.getParameter("subtotal");
-    String taxStr = request.getParameter("tax");
-    String deliveryStr = request.getParameter("delivery");
-    String totalStr = request.getParameter("total");
-
-    double subtotal = Double.parseDouble(subtotalStr);
-    double tax = Double.parseDouble(taxStr);
-    double delivery = Double.parseDouble(deliveryStr);
-    double total = Double.parseDouble(totalStr);
-
-    // Get cart
-    List<cat201project.model.CartItem> cart =
-            (List<cat201project.model.CartItem>) session.getAttribute("cart");
-
-    // Example payment method (you already have this from form / selection)
-    String paymentMethod = request.getParameter("paymentMethod");
-
-    // Generate simple transaction number
-    String transactionNo = "TXN" + System.currentTimeMillis();
-
-    // Save to session
-    session.setAttribute("paymentMethod", paymentMethod);
-    session.setAttribute("transactionNo", transactionNo);
+    List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+    Double subtotal = (Double) session.getAttribute("subtotal");
+    Double tax = (Double) session.getAttribute("tax");
+    Double delivery = (Double) session.getAttribute("delivery");
+    Double total = (Double) session.getAttribute("total");
 %>
 
 <!DOCTYPE html>
@@ -90,14 +53,18 @@
             margin-bottom: 30px;
         }
 
-        .payment-buttons {
+        .payment-tabs {
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
 
-        .payment-buttons button {
+        .tab-input {
+            display: none;
+        }
+
+        .tab-label {
             flex: 1;
             min-width: 150px;
             background-color: white;
@@ -108,25 +75,31 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 16px;
+            text-align: center;
             transition: 0.3s;
+            display: block;
         }
 
-        .payment-buttons button:hover,
-        .payment-buttons button.active {
+        .tab-label:hover {
+            background-color: #e0f7ff;
+        }
+
+        .tab-input:checked + .tab-label {
             background-color: lightblue;
             color: white;
         }
 
         .payment-form {
-            display: none;
             background-color: white;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
         }
 
-        .payment-form.active {
+        #tab-card:checked ~ .forms-container #card-form,
+        #tab-transfer:checked ~ .forms-container #transfer-form {
             display: block;
         }
 
@@ -153,7 +126,7 @@
             margin-bottom: 15px;
         }
 
-        label {
+        .form-group label {
             display: block;
             font-size: 14px;
             color: #333;
@@ -175,15 +148,16 @@
             border-color: lightblue;
         }
 
-        input.error {
-            border-color: #ff4444;
-        }
 
-        .error-message {
+        .error-text {
             color: #ff4444;
             font-size: 12px;
             margin-top: 5px;
             display: none;
+        }
+
+        input:invalid:not(:focus):not(:placeholder-shown) + .error-text {
+            display: block;
         }
 
         .submit-btn {
@@ -211,37 +185,6 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-details {
-            flex: 2;
-        }
-
-        .item-name {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .item-quantity {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .item-price {
-            font-weight: bold;
-            color: lightblue;
         }
 
         .summary-divider {
@@ -277,6 +220,41 @@
             border-top: 2px solid lightblue;
         }
 
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 2;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-quantity {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: lightblue;
+        }
+
         @media (max-width: 767px) {
             .header {
                 padding: 15px 20px;
@@ -286,11 +264,11 @@
                 padding: 0 20px;
             }
 
-            .payment-buttons {
+            .payment-tabs {
                 flex-direction: column;
             }
 
-            .payment-buttons button {
+            .tab-label {
                 min-width: 100%;
             }
 
@@ -309,89 +287,129 @@
 <div class="container">
     <h1>Select Payment Method</h1>
 
-    <div class="payment-buttons">
-        <button id="debitBtn" onclick="showPaymentForm('debit')">Card Payment</button>
-        <button id="transferBtn" onclick="showPaymentForm('transfer')">Online Transfer</button>
+    <input type="radio" name="payment-tab" id="tab-card" class="tab-input" checked>
+    <input type="radio" name="payment-tab" id="tab-transfer" class="tab-input">
+
+    <div class="payment-tabs">
+        <label for="tab-card" class="tab-label">Card Payment</label>
+        <label for="tab-transfer" class="tab-label">Online Transfer</label>
     </div>
 
-    <!-- Debit Card Form -->
-    <div id="debit-form" class="payment-form">
-        <h2>Card Payment (Visa / MasterCard)</h2>
-        <form id="debitForm" onsubmit="return validateDebitCard(event)">
-            <!-- Card Number -->
-            <div class="form-group full">
-                <label for="cardNumber">Card Number *</label>
-                <input type="text" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
-                <span class="error-message" id="cardNumberError">
-                Please enter a valid 16-digit card number
-            </span>
-            </div>
-
-            <!-- Expiry + CVV -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="expiryDate">Expiration Date *</label>
-                    <input type="text" id="expiryDate" maxlength="5" placeholder="MM/YY">
-                    <span class="error-message" id="expiryError">Enter valid expiry (MM/YY)</span>
+    <div class="forms-container">
+        <!-- Card Payment Form -->
+        <div id="card-form" class="payment-form">
+            <h2>Card Payment (Visa / MasterCard)</h2>
+            <form action="PaymentServlet" method="post">
+                <div class="form-group full">
+                    <label for="cardNumber">Card Number *</label>
+                    <input
+                            type="text"
+                            id="cardNumber"
+                            name="cardNumber"
+                            pattern="[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}"
+                            maxlength="19"
+                            placeholder="1234 5678 9012 3456"
+                            title="Enter a valid 16-digit card number"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim()"
+                            required>
+                    <span class="error-text">Please enter a valid 16-digit card number</span>
                 </div>
 
-                <div class="form-group">
-                    <label for="cvv">CVV *</label>
-                    <input type="text" id="cvv" maxlength="3" placeholder="123">
-                    <span class="error-message" id="cvvError">Enter valid 3-digit CVV</span>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">Expiration Date *</label>
+                        <input
+                                type="text"
+                                id="expiryDate"
+                                name="expiryDate"
+                                pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
+                                maxlength="5"
+                                placeholder="MM/YY"
+                                title="Enter expiry date in MM/YY format"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^(\d{2})(\d)/, '$1/$2').substr(0, 5)"
+                                required>
+                        <span class="error-text">Enter valid expiry (MM/YY)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV *</label>
+                        <input
+                                type="text"
+                                id="cvv"
+                                name="cvv"
+                                pattern="[0-9]{3}"
+                                maxlength="3"
+                                placeholder="123"
+                                title="Enter a valid 3-digit CVV"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                required>
+                        <span class="error-text">Enter valid 3-digit CVV</span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Card Holder Name (moved below) -->
-            <div class="form-group full">
-                <label for="cardHolder">Card Holder Name *</label>
-                <input type="text" id="cardHolder">
-                <span class="error-message" id="cardHolderError">
-                Please enter the card holder name
-            </span>
-            </div>
+                <div class="form-group full">
+                    <label for="cardHolder">Card Holder Name *</label>
+                    <input
+                            type="text"
+                            id="cardHolder"
+                            name="cardHolder"
+                            pattern="[A-Za-z\s]{2,}"
+                            placeholder="
+"
+                            minlength="2"
+                            title="Enter the full name on the card"
+                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')"
+                            required>
+                    <span class="error-text">Please enter the card holder name</span>
+                </div>
 
-            <button type="submit" class="submit-btn">Proceed to Payment</button>
-        </form>
-    </div>
+                <input type="hidden" name="paymentType" value="card">
+                <button type="submit" class="submit-btn">Proceed to Payment</button>
+            </form>
+        </div>
 
+        <!-- Bank Transfer Form -->
+        <div id="transfer-form" class="payment-form">
+            <h2>Select Bank for Online Transfer</h2>
+            <form action="PaymentServlet" method="post">
+                <div class="form-group full">
+                    <label for="bank">Choose a Bank *</label>
+                    <select id="bank" name="bank" required>
+                        <option value="">--Select a Bank--</option>
+                        <option value="Maybank">Maybank</option>
+                        <option value="CIMB Bank">CIMB Bank</option>
+                        <option value="Public Bank">Public Bank</option>
+                        <option value="RHB Bank">RHB Bank</option>
+                        <option value="Hong Leong Bank">Hong Leong Bank</option>
+                        <option value="AmBank">AmBank</option>
+                    </select>
+                    <span class="error-text">Please select a bank</span>
+                </div>
 
-    <!-- Bank Transfer Form -->
-    <div id="bank-form" class="payment-form">
-        <h2>Select Bank for Online Transfer</h2>
-        <form id="bankForm" onsubmit="return validateBankTransfer(event)">
-            <div class="form-group full">
-                <label for="bank">Choose a Bank *</label>
-                <select id="bank">
-                    <option value="">--Select a Bank--</option>
-                    <option value="Maybank">Maybank</option>
-                    <option value="CIMB Bank">CIMB Bank</option>
-                    <option value="Public Bank">Public Bank</option>
-                    <option value="RHB Bank">RHB Bank</option>
-                    <option value="Hong Leong Bank">Hong Leong Bank</option>
-                    <option value="AmBank">AmBank</option>
-                </select>
-                <span class="error-message" id="bankError">Please select a bank</span>
-            </div>
-
-            <button type="submit" class="submit-btn">Proceed to Payment Approval</button>
-        </form>
+                <input type="hidden" name="paymentType" value="transfer">
+                <button type="submit" class="submit-btn">Proceed to Payment Approval</button>
+            </form>
+        </div>
     </div>
 
     <div class="cart-summary">
         <h2>Order Summary</h2>
 
-        <% if(cart != null && !cart.isEmpty()) {
-            for(CartItem item : cart) { %>
-        <div class="cart-item">
-            <div class="item-details">
-                <div class="item-name"><%= item.getName() %></div>
-                <div class="item-quantity">Quantity: <%= item.getQuantity() %></div>
+        <div class="cart-items">
+            <% if (cart == null || cart.isEmpty()) { %>
+            <div>Your cart is empty</div>
+            <% } else {
+                for (CartItem item : cart) { %>
+            <div class="cart-item">
+                <div class="item-details">
+                    <div class="item-name"><%= item.getName() %></div>
+                    <div class="item-quantity">Quantity: <%= item.getQuantity() %></div>
+                </div>
+                <div class="item-price">RM <%= String.format("%.2f", item.getTotalPrice()) %></div>
             </div>
-            <div class="item-price">RM <%= String.format("%.2f", item.getTotalPrice()) %></div>
+            <%  }
+            } %>
         </div>
-        <%  }
-        } %>
 
         <hr class="summary-divider">
 
@@ -416,135 +434,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    let selectedPaymentMethod = '';
-
-    function showPaymentForm(method) {
-        // Hide all forms
-        document.querySelectorAll('.payment-form').forEach(form => {
-            form.classList.remove('active');
-        });
-
-        // Remove active class from all buttons
-        document.querySelectorAll('.payment-buttons button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        // Show selected form and activate button
-        if (method === 'debit') {
-            document.getElementById('debit-form').classList.add('active');
-            document.getElementById('debitBtn').classList.add('active');
-            selectedPaymentMethod = 'Debit Card';
-        } else if (method === 'transfer') {
-            document.getElementById('bank-form').classList.add('active');
-            document.getElementById('transferBtn').classList.add('active');
-            selectedPaymentMethod = 'Online Transfer';
-        }
-    }
-
-    // Format card number with spaces
-    document.getElementById('cardNumber').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\s/g, '');
-        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-        e.target.value = formattedValue;
-    });
-
-    // Format expiry date
-    document.getElementById('expiryDate').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 2) {
-            value = value.slice(0, 2) + '/' + value.slice(2, 4);
-        }
-        e.target.value = value;
-    });
-
-    // Only allow numbers in CVV
-    document.getElementById('cvv').addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/\D/g, '');
-    });
-
-    function validateDebitCard(event) {
-        event.preventDefault();
-        let isValid = true;
-
-        // Reset errors
-        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
-
-        // Validate card number (16 digits)
-        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-        if (!/^\d{16}$/.test(cardNumber)) {
-            showError('cardNumber', 'cardNumberError');
-            isValid = false;
-        }
-
-        // Validate card holder
-        const cardHolder = document.getElementById('cardHolder').value.trim();
-        if (!cardHolder || cardHolder.length < 3) {
-            showError('cardHolder', 'cardHolderError');
-            isValid = false;
-        }
-
-        // Validate expiry date
-        const expiry = document.getElementById('expiryDate').value;
-        const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-        if (!expiryRegex.test(expiry)) {
-            showError('expiryDate', 'expiryError');
-            isValid = false;
-        } else {
-            // Check if card is expired
-            const [month, year] = expiry.split('/');
-            const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
-            const today = new Date();
-            if (expiryDate < today) {
-                showError('expiryDate', 'expiryError');
-                document.getElementById('expiryError').textContent = 'Card has expired';
-                isValid = false;
-            }
-        }
-
-        // Validate CVV
-        const cvv = document.getElementById('cvv').value;
-        if (!/^\d{3}$/.test(cvv)) {
-            showError('cvv', 'cvvError');
-            isValid = false;
-        }
-
-        if (isValid) {
-            // Store payment method
-            sessionStorage.setItem('paymentMethod', 'Debit Card');
-            sessionStorage.setItem('cardLast4', cardNumber.slice(-4));
-            // Redirect to order confirmation
-            window.location.href = 'order-confirmation.jsp';
-        }
-
-        return false;
-    }
-
-    function validateBankTransfer(event) {
-        event.preventDefault();
-
-        const bank = document.getElementById('bank').value;
-        if (!bank) {
-            showError('bank', 'bankError');
-            return false;
-        }
-
-        // Store payment method and bank
-        sessionStorage.setItem('paymentMethod', 'Online Transfer');
-        sessionStorage.setItem('selectedBank', bank);
-
-        // Redirect to bank approval page
-        window.location.href = 'bank-approval.jsp';
-        return false;
-    }
-
-    function showError(inputId, errorId) {
-        document.getElementById(inputId).classList.add('error');
-        document.getElementById(errorId).style.display = 'block';
-    }
-</script>
 
 </body>
 </html>

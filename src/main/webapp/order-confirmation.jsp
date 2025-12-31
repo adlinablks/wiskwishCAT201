@@ -1,44 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.List" %>
 <%@ page import="cat201project.model.CartItem" %>
 <%
-    // Get customer info from session
-    String firstName = (String) session.getAttribute("customerFirstName");
-    String lastName = (String) session.getAttribute("customerLastName");
-    String email = (String) session.getAttribute("customerEmail");
-    String phone = (String) session.getAttribute("customerPhone");
-    String address = (String) session.getAttribute("customerAddress");
-    String city = (String) session.getAttribute("customerCity");
-    String postalCode = (String) session.getAttribute("customerPostalCode");
+    List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
-    // Get cart
-    List<cat201project.model.CartItem> cart =
-            (List<cat201project.model.CartItem>) session.getAttribute("cart");
+    String firstName = (String) request.getAttribute("firstName");
+    String lastName = (String) request.getAttribute("lastName");
+    String phone = (String) request.getAttribute("phone");
+    String address = (String) request.getAttribute("address");
+    String city = (String) request.getAttribute("city");
+    String postalCode = (String) request.getAttribute("postalCode");
 
-    // Calculate totals
-    double subtotal = 0;
-    if(cart != null) {
-        for(CartItem item : cart) {
-            subtotal += item.getTotalPrice();
-        }
-    }
+    Double subtotal = (Double) request.getAttribute("subtotal");
+    Double tax = (Double) request.getAttribute("tax");
+    Double delivery = (Double) request.getAttribute("delivery");
+    Double total = (Double) request.getAttribute("total");
 
-    double tax = subtotal * 0.06;
-    double delivery = 15;
-    double total = subtotal + tax + delivery;
+    String orderNumber = (String) request.getAttribute("orderNumber");
+    String orderDate = (String) request.getAttribute("orderDate");
+    String estimatedDelivery = (String) request.getAttribute("estimatedDelivery");
+    String paymentMethod = (String) request.getAttribute("paymentMethod");
 
-    // Generate order number
-    String orderNumber = "WW" + System.currentTimeMillis();
+    if (subtotal == null) subtotal = 0.0;
+    if (tax == null) tax = 0.0;
+    if (delivery == null) delivery = 0.0;
+    if (total == null) total = 0.0;
 
-    // Get current date
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm a");
-    String orderDate = dateFormat.format(new Date());
-
-    // Estimated delivery (3-5 business days)
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.DAY_OF_MONTH, 5);
-    String estimatedDelivery = new SimpleDateFormat("MMMM dd, yyyy").format(cal.getTime());
+    // Clear cart AFTER showing confirmation
+    session.removeAttribute("cart");
 %>
 
 <!DOCTYPE html>
@@ -87,30 +76,6 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
-       <%-- .success-icon {
-            width: 80px;
-            height: 80px;
-            background-color: #4CAF50;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-            color: white;
-            animation: scaleIn 0.5s ease-out;
-        } --%>
-
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-        }
-
         h1 {
             font-size: 32px;
             color: #333;
@@ -145,12 +110,6 @@
             margin-bottom: 20px;
         }
 
-        .confirmation-message {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.6;
-        }
-
         .info-section {
             background-color: white;
             border-radius: 15px;
@@ -182,7 +141,6 @@
             font-size: 13px;
             color: #999;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             margin-bottom: 5px;
         }
 
@@ -333,14 +291,8 @@
             transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background-color: white;
-            color: lightblue;
-            border: 2px solid lightblue;
-        }
-
-        .btn-secondary:hover {
-            background-color: aliceblue;
+        .full-width {
+            grid-column: 1 / -1;
         }
 
         @media (max-width: 767px) {
@@ -375,7 +327,6 @@
 <div class="container">
     <!-- Success Banner -->
     <div class="success-banner">
-        <%--<div class="success-icon">✓</div> --%>
         <h1>Order Successfully Placed!</h1>
         <div class="status-badge">Payment Confirmed</div>
         <div class="order-number">
@@ -388,8 +339,8 @@
     <div class="info-section">
         <div class="section-title">Order Items</div>
 
-        <% if(cart != null && !cart.isEmpty()) {
-            for(CartItem item : cart) { %>
+        <% if (cart != null && !cart.isEmpty()) {
+            for (CartItem item : cart) { %>
         <div class="order-item">
             <div class="item-details">
                 <div class="item-name"><%= item.getName() %></div>
@@ -425,7 +376,7 @@
         <div class="payment-info">
             <div class="payment-method">
                 <span class="payment-label">Payment Method:</span>
-                <span class="payment-value" id="paymentMethod">Processing...</span>
+                <span class="payment-value"><%= paymentMethod %></span>
             </div>
         </div>
     </div>
@@ -445,7 +396,7 @@
                 <div class="info-value"><%= phone %></div>
             </div>
 
-            <div class="info-item" style="grid-column: 1 / -1;">
+            <div class="info-item full-width">
                 <div class="info-label">Delivery Address</div>
                 <div class="info-value">
                     <%= address %><br>
@@ -462,28 +413,9 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-        <a href="${pageContext.request.contextPath}/homepage.jsp"  class="btn btn-primary">Go Back to Homepage</a>
+        <a href="homepage.jsp" class="btn btn-primary">Go Back to Homepage</a>
     </div>
 </div>
-
-<script>
-    // Store order number in session storage for tracking
-    sessionStorage.setItem('lastOrderNumber', '<%= orderNumber %>');
-
-    // Display payment method from session storage
-    const paymentMethod = sessionStorage.getItem('paymentMethod');
-    const paymentMethodEl = document.getElementById('paymentMethod');
-
-    if (paymentMethod === 'Debit Card') {
-        const cardLast4 = sessionStorage.getItem('cardLast4');
-        paymentMethodEl.textContent = 'Debit Card (****' + cardLast4 + ')';
-    } else if (paymentMethod === 'Online Transfer') {
-        const selectedBank = sessionStorage.getItem('selectedBank');
-        paymentMethodEl.textContent = 'Online Transfer - ' + selectedBank;
-    } else {
-        paymentMethodEl.textContent = 'Payment Completed';
-    }
-</script>
 
 </body>
 </html>

@@ -1,19 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.List" %>
 <%@ page import="cat201project.model.CartItem" %>
 <%
-    List<cat201project.model.CartItem> cart =
-            (List<cat201project.model.CartItem>) session.getAttribute("cart");
+    List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
     double subtotal = 0;
-    if(cart != null) {
-        for(CartItem item : cart) {
+    if (cart != null) {
+        for (CartItem item : cart) {
             subtotal += item.getTotalPrice();
         }
     }
 
-    double tax = subtotal * 0.06; // 6% tax
-    double delivery = 15; // same delivery fee as cart page
+    double tax = subtotal * 0.06;
+    double delivery = 15.0;
     double total = subtotal + tax + delivery;
 %>
 
@@ -269,18 +268,18 @@
 
     <div class="checkout-container">
 
-        <form id="checkoutForm" class="checkout-form" action="payment.jsp" method="post">
+        <form id="checkoutForm" class="checkout-form" action="CheckoutServlet" method="post">
 
             <div class="form-section">
                 <div class="section-title">Customer Information</div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">First Name *</label>
+                        <label class="form-label" for="firstName">First Name *</label>
                         <input class="form-input" type="text" name="firstName" id="firstName" required>
                         <span class="error-message" id="firstNameError">Please enter your first name</span>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Last Name *</label>
+                        <label class="form-label" for="lastName">Last Name *</label>
                         <input class="form-input" type="text" name="lastName" id="lastName" required>
                         <span class="error-message" id="lastNameError">Please enter your last name</span>
                     </div>
@@ -288,12 +287,12 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Email *</label>
+                        <label class="form-label" for="email">Email *</label>
                         <input class="form-input" type="email" name="email" id="email" required>
                         <span class="error-message" id="emailError">Please enter a valid email</span>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Phone *</label>
+                        <label class="form-label" for="phone">Phone *</label>
                         <input class="form-input" type="tel" name="phone" id="phone" required>
                         <span class="error-message" id="phoneError">Please enter a valid phone number</span>
                     </div>
@@ -304,30 +303,24 @@
                 <div class="section-title">Delivery Address</div>
                 <div class="form-row">
                     <div class="form-group full">
-                        <label class="form-label">Address *</label>
+                        <label class="form-label" for="address">Address *</label>
                         <input class="form-input" type="text" name="address" id="address" required>
                         <span class="error-message" id="addressError">Please enter your address</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">City *</label>
+                        <label class="form-label" for="city">City *</label>
                         <input class="form-input" type="text" name="city" id="city" required>
                         <span class="error-message" id="cityError">Please enter your city</span>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Postal Code *</label>
+                        <label class="form-label" for="postalCode">Postal Code *</label>
                         <input class="form-input" type="text" name="postalCode" id="postalCode" required>
                         <span class="error-message" id="postalCodeError">Please enter your postal code</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Hidden fields to pass cart data -->
-            <input type="hidden" name="subtotal" value="<%= subtotal %>">
-            <input type="hidden" name="tax" value="<%= tax %>">
-            <input type="hidden" name="delivery" value="<%= delivery %>">
-            <input type="hidden" name="total" value="<%= total %>">
 
         </form>
 
@@ -335,10 +328,10 @@
             <div class="summary-title">Order Summary</div>
 
             <div id="order-items">
-                <% if(cart == null || cart.isEmpty()) { %>
+                <% if (cart == null || cart.isEmpty()) { %>
                 <div>Your cart is empty</div>
                 <% } else {
-                    for(CartItem item : cart) { %>
+                    for (CartItem item : cart) { %>
                 <div class="summary-row">
                     <span class="summary-label"><%= item.getName() %> (x<%= item.getQuantity() %>)</span>
                     <span class="summary-value">RM <%= String.format("%.2f", item.getTotalPrice()) %></span>
@@ -369,7 +362,7 @@
                 <span class="total-value">RM <%= String.format("%.2f", total) %></span>
             </div>
 
-            <button type="button" class="checkout-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+            <button type="submit" form="checkoutForm" class="checkout-btn">Proceed to Payment</button>
             <form action="cart-page.jsp" method="get">
                 <button type="submit" class="back-btn">Back to Cart</button>
             </form>
@@ -377,82 +370,6 @@
 
     </div>
 </div>
-
-<script>
-    function validateForm() {
-        let isValid = true;
-
-        // Reset all error messages
-        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
-
-        // First Name validation
-        const firstName = document.getElementById('firstName');
-        if (!firstName.value.trim()) {
-            showError('firstName', 'firstNameError');
-            isValid = false;
-        }
-
-        // Last Name validation
-        const lastName = document.getElementById('lastName');
-        if (!lastName.value.trim()) {
-            showError('lastName', 'lastNameError');
-            isValid = false;
-        }
-
-        // Email validation
-        const email = document.getElementById('email');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email.value.trim() || !emailRegex.test(email.value)) {
-            showError('email', 'emailError');
-            isValid = false;
-        }
-
-        // Phone validation
-        const phone = document.getElementById('phone');
-        const phoneRegex = /^[0-9]{10,15}$/;
-        if (!phone.value.trim() || !phoneRegex.test(phone.value.replace(/[\s-]/g, ''))) {
-            showError('phone', 'phoneError');
-            isValid = false;
-        }
-
-        // Address validation
-        const address = document.getElementById('address');
-        if (!address.value.trim()) {
-            showError('address', 'addressError');
-            isValid = false;
-        }
-
-        // City validation
-        const city = document.getElementById('city');
-        if (!city.value.trim()) {
-            showError('city', 'cityError');
-            isValid = false;
-        }
-
-        // Postal Code validation
-        const postalCode = document.getElementById('postalCode');
-        if (!postalCode.value.trim()) {
-            showError('postalCode', 'postalCodeError');
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    function showError(inputId, errorId) {
-        document.getElementById(inputId).classList.add('error');
-        document.getElementById(errorId).style.display = 'block';
-    }
-
-    function proceedToPayment() {
-        if (validateForm()) {
-            document.getElementById('checkoutForm').submit();
-        } else {
-            alert('Please fill in all required fields correctly.');
-        }
-    }
-</script>
 
 </body>
 </html>
