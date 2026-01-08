@@ -1,11 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    // Check if the user is logged in as an admin
     String userRole = (String) session.getAttribute("userRole");
-
     if (userRole == null || !userRole.equals("admin")) {
-        // If not admin, send them back to login page
         response.sendRedirect("login.jsp");
         return;
     }
@@ -17,17 +14,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Wisk Wish</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: lightblue;
             min-height: 100vh;
-            margin: 0;
         }
 
         .header {
@@ -36,7 +30,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-title {
@@ -52,9 +46,8 @@
         }
 
         .admin-text {
-            color: lightblue;
-            font-size: 16px;
             font-weight: bold;
+            color: lightblue;
         }
 
         .logout-button {
@@ -63,14 +56,8 @@
             border: none;
             padding: 10px 20px;
             border-radius: 10px;
-            cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .logout-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
         .container {
@@ -81,9 +68,9 @@
 
         .page-title {
             font-size: 30px;
-            margin-bottom: 30px;
             color: white;
             font-weight: bold;
+            margin-bottom: 25px;
         }
 
         .tabs {
@@ -93,30 +80,22 @@
         }
 
         .tab {
+            background: white;
             padding: 10px 20px;
-            color: lightblue;
-            cursor: pointer;
             border-radius: 10px;
-            background-color: white;
-            transition: 0.3s;
             font-weight: bold;
-        }
-
-        .tab:hover {
-            background-color: aliceblue;
+            color: lightblue;
         }
 
         .tab.active {
-            color: white;
             background-color: lightblue;
-            font-weight: bold;
+            color: white;
         }
 
         .inventory-list {
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .inventory-item {
@@ -124,31 +103,12 @@
             align-items: center;
             padding: 20px;
             border-bottom: 3px solid aliceblue;
-            transition: 0.3s;
-        }
-
-        .inventory-item:hover {
-            background-color: aliceblue;
-        }
-
-        .inventory-item:last-child {
-            border-bottom: none;
         }
 
         .item-image {
             width: 90px;
             height: 90px;
-            background-color: lightblue;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            text-align: center;
             margin-right: 20px;
-            font-weight: bold;
-            overflow: hidden;
         }
 
         .item-image img {
@@ -158,207 +118,64 @@
             border-radius: 10px;
         }
 
-        .item-details {
-            flex: 1;
-        }
+        .item-details { flex: 1; }
 
         .item-id {
-            font-size: 14px;
             color: #999;
-            margin-bottom: 5px;
             font-weight: bold;
+            font-size: 14px;
         }
 
         .item-name {
-            font-size: 20px;
             color: lightblue;
-            margin-bottom: 10px;
+            font-size: 20px;
             font-weight: bold;
-        }
-
-        .customization-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .customization-row {
             display: flex;
             gap: 10px;
-            align-items: center;
+            margin-bottom: 6px;
         }
 
         .customization-label {
-            font-size: 14px;
-            color: #666;
             font-weight: bold;
-            min-width: 80px;
-        }
-
-        .customization-options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            min-width: 70px;
+            color: #666;
         }
 
         .option-badge {
-            padding: 5px 10px;
             background-color: lightblue;
             color: white;
+            padding: 5px 10px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 2px solid lightblue;
-        }
-
-        .option-badge:hover {
-            background-color: white;
-            color: lightblue;
-            transform: scale(1.05);
-        }
-
-        .option-badge.selected {
-            background-color: white;
-            color: lightblue;
-            border: 2px solid lightblue;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .item-stock {
-            margin-right: 20px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
             background-color: lightblue;
+            color: white;
             padding: 10px 15px;
             border-radius: 10px;
+            font-weight: bold;
+            margin-right: 20px;
         }
 
         .update-button {
             background-color: lightblue;
             color: white;
-            font-weight: bold;
-            font-size: 14px;
             padding: 10px 20px;
-            cursor: pointer;
-            border: none;
             border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        .update-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 90%;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            color: lightblue;
+            text-decoration: none;
             font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .modal-info {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid lightblue;
-            border-radius: 10px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .modal-input:focus {
-            outline: none;
-            border-color: #4fc3f7;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .modal-btn-save {
-            background-color: lightblue;
-            color: white;
-        }
-
-        .modal-btn-save:hover {
-            background-color: #4fc3f7;
-        }
-
-        .modal-btn-cancel {
-            background-color: #e0e0e0;
-            color: #666;
-        }
-
-        .modal-btn-cancel:hover {
-            background-color: #d0d0d0;
-        }
-
-        @media (max-width: 767px) {
-            .inventory-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .item-stock {
-                margin-right: 0;
-            }
-
-            .update-button {
-                width: 100%;
-            }
         }
     </style>
 </head>
+
 <body>
+
 <div class="header">
     <div class="header-title">Wisk Wish Dashboard</div>
     <div class="header-right">
@@ -376,250 +193,105 @@
     </div>
 
     <div class="inventory-list">
+
+        <!-- C01 -->
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg" alt="Ribbon Cake">
-
+                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg">
             </div>
             <div class="item-details">
                 <div class="item-id">C01</div>
                 <div class="item-name">Ribbon Cake</div>
-                <div class="customization-group">
-                    <div class="customization-row">
-                        <span class="customization-label">Tier:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="15">1 Tier (15)</span>
-                            <span class="option-badge" data-qty="10">2 Tiers (10)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Flavour:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="13" onclick="selectOption(this, 'Flavour')">Vanilla (13)</span>
-                            <span class="option-badge" data-qty="12" onclick="selectOption(this, 'Flavour')">Chocolate (12)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Size:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="14">7 inch (14)</span>
-                            <span class="option-badge" data-qty="11">10 inch (11)</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (15)</span><span class="option-badge">2 Tiers (10)</span></div>
+                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (13)</span><span class="option-badge">Chocolate (12)</span></div>
+                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (14)</span><span class="option-badge">10 inch (11)</span></div>
             </div>
             <div class="item-stock">Total: 25</div>
-            <button class="update-button">Update Quantity</button>
-
-
-
+            <a href="update-inventory.jsp?cakeId=C01&cakeName=Ribbon%20Cake" class="update-button">Update Quantity</a>
         </div>
 
+        <!-- C02 -->
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg"  alt="Stitch Cake">
-                <!-- <img src="pictures/stitch-cake.jpg" alt="Stitch Cake"> -->
+                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg">
             </div>
             <div class="item-details">
                 <div class="item-id">C02</div>
                 <div class="item-name">Stitch Cake</div>
-                <div class="customization-group">
-                    <div class="customization-row">
-                        <span class="customization-label">Tier:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="10">1 Tier (10)</span>
-                            <span class="option-badge" data-qty="8">2 Tiers (8)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Flavour:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="9">Vanilla (9)</span>
-                            <span class="option-badge" data-qty="9">Chocolate (9)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Size:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="10">7 inch (10)</span>
-                            <span class="option-badge" data-qty="8">10 inch (8)</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (10)</span><span class="option-badge">2 Tiers (8)</span></div>
+                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (9)</span><span class="option-badge">Chocolate (9)</span></div>
+                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (10)</span><span class="option-badge">10 inch (8)</span></div>
             </div>
             <div class="item-stock">Total: 18</div>
-            <button class="update-button">Update Quantity</button>
-
+            <a href="update-inventory.jsp?cakeId=C02&cakeName=Stitch%20Cake" class="update-button">Update Quantity</a>
         </div>
 
+        <!-- C03 -->
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">
-                <!--<img src="pictures/two-tier-flower-cake.jpg" alt="Real Flower Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg">
             </div>
             <div class="item-details">
                 <div class="item-id">C03</div>
                 <div class="item-name">Real Flower Cake</div>
-                <div class="customization-group">
-                    <div class="customization-row">
-                        <span class="customization-label">Tier:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="12">1 Tier (12)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Flavour:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="6">Vanilla (6)</span>
-                            <span class="option-badge" data-qty="6">Chocolate (6)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Size:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="12">10 inch (12)</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (12)</span></div>
+                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (6)</span><span class="option-badge">Chocolate (6)</span></div>
+                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">10 inch (12)</span></div>
             </div>
             <div class="item-stock">Total: 12</div>
-            <button class="update-button">Update Quantity</button>
-
+            <a href="update-inventory.jsp?cakeId=C03&cakeName=Real%20Flower%20Cake" class="update-button">Update Quantity</a>
         </div>
 
+        <!-- C04 -->
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg" alt="Fox Cake">
-                <!--<img src="pictures/fox-cake.jpg" alt="Fox Cake">-->
+                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg">
             </div>
             <div class="item-details">
                 <div class="item-id">C04</div>
                 <div class="item-name">Fox Cake</div>
-                <div class="customization-group">
-                    <div class="customization-row">
-                        <span class="customization-label">Tier:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="8">1 Tier (8)</span>
-                            <span class="option-badge" data-qty="7">2 Tiers (7)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Flavour:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="8">Vanilla (8)</span>
-                            <span class="option-badge" data-qty="7">Chocolate (7)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Size:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="8">7 inch (8)</span>
-                            <span class="option-badge" data-qty="7">10 inch (7)</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (8)</span><span class="option-badge">2 Tiers (7)</span></div>
+                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (8)</span><span class="option-badge">Chocolate (7)</span></div>
+                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (8)</span><span class="option-badge">10 inch (7)</span></div>
             </div>
             <div class="item-stock">Total: 15</div>
-                <button class="update-button" type="submit">Update Quantity</button>
-
+            <a href="update-inventory.jsp?cakeId=C04&cakeName=Fox%20Cake" class="update-button">Update Quantity</a>
         </div>
 
+        <!-- C05 -->
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg" alt="Drawn Flower Cake">
+                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg">
             </div>
             <div class="item-details">
                 <div class="item-id">C05</div>
                 <div class="item-name">Drawn Flower Cake</div>
-                <div class="customization-group">
-                    <div class="customization-row">
-                        <span class="customization-label">Tier:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="20">1 Tier (20)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Flavour:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="10">Vanilla (10)</span>
-                            <span class="option-badge" data-qty="10">Chocolate (10)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Size:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="11">7 inch (11)</span>
-                            <span class="option-badge" data-qty="9">10 inch (9)</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (20)</span></div>
+                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (10)</span><span class="option-badge">Chocolate (10)</span></div>
+                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (11)</span><span class="option-badge">10 inch (9)</span></div>
             </div>
             <div class="item-stock">Total: 20</div>
-            <button class="update-button">Update Quantity</button>
-
+            <a href="update-inventory.jsp?cakeId=C05&cakeName=Drawn%20Flower%20Cake" class="update-button">Update Quantity</a>
         </div>
 
+        <!-- C06 -->
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg" alt="Bomb Cake">
-                <!--<img src="pictures/bomb-cake.jpg" alt="Bomb Cake">-->
-
+                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg">
             </div>
             <div class="item-details">
                 <div class="item-id">C06</div>
                 <div class="item-name">Bomb Cake</div>
-                <div class="customization-group">
-                    <div class="customization-row">
-                        <span class="customization-label">Tier:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="10">1 Tier (10)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Flavour:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="5">Vanilla (5)</span>
-                            <span class="option-badge" data-qty="5">Chocolate (5)</span>
-                        </div>
-                    </div>
-                    <div class="customization-row">
-                        <span class="customization-label">Size:</span>
-                        <div class="customization-options">
-                            <span class="option-badge" data-qty="10">7 inch (10)</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (10)</span></div>
+                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (5)</span><span class="option-badge">Chocolate (5)</span></div>
+                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (10)</span></div>
             </div>
             <div class="item-stock">Total: 10</div>
-            <button class="update-button">Update Quantity</button>
-
+            <a href="update-inventory.jsp?cakeId=C06&cakeName=Bomb%20Cake" class="update-button">Update Quantity</a>
         </div>
+
     </div>
 </div>
-
-<div class="modal" id="updateModal">
-    <div class="modal-content">
-        <div class="modal-title" id="modalTitle">Update Quantity</div>
-        <div class="modal-info" id="modalInfo"></div>
-        <!--<input type="number" class="modal-input" id="quantityInput" placeholder="Enter new quantity" min="0">-->
-        <label for="quantityInput" style="display: none;">Quantity</label>
-        <input type="number" class="modal-input" id="quantityInput" placeholder="Enter new quantity" min="0">
-        <div class="modal-buttons">
-            <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Cancel</button>
-            <button class="modal-btn modal-btn-save" onclick="saveQuantity()">Save</button>
-        </div>
-    </div>
-</div>
-
-<!--<form id="hiddenOrderForm" action="InventoryController" method="POST" style="display:none;"> -->
-<!--<form id="hiddenOrderForm" action="${pageContext.request.contextPath}/InventoryController" method="POST" style="display:none;">
-    <input type="hidden" name="cakeId" id="formCakeId">
-    <input type="hidden" name="tier" id="formTier">
-    <input type="hidden" name="flavour" id="formFlavour">
-    <input type="hidden" name="size" id="formSize">
-</form>-->
-
-<script src="${pageContext.request.contextPath}/js/product.js"></script>
 
 </body>
 </html>

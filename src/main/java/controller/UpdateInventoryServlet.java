@@ -1,0 +1,183 @@
+package com.wiskwish.controller;
+
+import java.io.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/UpdateInventoryServlet")
+public class UpdateInventoryServlet extends HttpServlet {
+
+    private static final String INVENTORY_FILE = "inventory.json";
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+
+        // Check admin authentication
+        if (session == null || !"admin".equals(session.getAttribute("userRole"))) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Get form parameters
+        String cakeId = request.getParameter("cakeId");
+        String cakeName = request.getParameter("cakeName");
+        String tier = request.getParameter("tier");
+        String flavour = request.getParameter("flavour");
+        String size = request.getParameter("size");
+        String quantityStr = request.getParameter("quantity");
+
+        // Validate inputs
+        if (cakeId == null || tier == null || flavour == null ||
+                size == null || quantityStr == null) {
+            request.setAttribute("error", "All fields are required");
+            request.setAttribute("cakeId", cakeId);
+            request.setAttribute("cakeName", cakeName);
+            request.getRequestDispatcher("update-inventory.jsp").forward(request, response);
+            return;
+        }
+
+        try {
+            int quantity = Integer.parseInt(quantityStr);
+
+            if (quantity < 0) {
+                request.setAttribute("error", "Quantity cannot be negative");
+                request.setAttribute("cakeId", cakeId);
+                request.setAttribute("cakeName", cakeName);
+                request.getRequestDispatcher("update-inventory.jsp").forward(request, response);
+                return;
+            }
+
+            // Update JSON file
+            boolean success = updateInventoryInJSON(cakeId, tier, flavour, size, quantity);
+
+            if (success) {
+                // Redirect back to admin dashboard with success message
+                response.sendRedirect("admin-dashboard.jsp?update=success");
+            } else {
+                request.setAttribute("error", "Failed to update inventory");
+                request.setAttribute("cakeId", cakeId);
+                request.setAttribute("cakeName", cakeName);
+                request.getRequestDispatcher("update-inventory.jsp").forward(request, response);
+            }
+
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Invalid quantity format");
+            request.setAttribute("cakeId", cakeId);
+            request.setAttribute("cakeName", cakeName);
+            request.getRequestDispatcher("update-inventory.jsp").forward(request, response);
+        }
+    }
+
+    private boolean updateInventoryInJSON(String cakeId, String tier,
+                                          String flavour, String size, int quantity) {
+
+        try {
+            String filePath = getServletContext().getRealPath("/WEB-INF/" + INVENTORY_FILE);
+            File file = new File(filePath);
+
+            // Ensure parent directory exists
+            File parentDir = file.getParentFile();
+            if (!parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+
+            List<InventoryItem> inventoryList;
+
+            // Read existing data
+            if (file.exists()) {
+                Reader reader = new FileReader(file);
+                Type listType = new TypeToken<ArrayList<InventoryItem>>(){}.getType();
+                inventoryList = gson.fromJson(reader, listType);
+                reader.close();
+
+                if (inventoryList == null) {
+                    inventoryList = new ArrayList<>();
+                }
+            } else {
+                inventoryList = new ArrayList<>();
+            }
+
+            // Find and update the item
+            boolean found = false;
+            for (InventoryItem item : inventoryList) {
+                if (item.getCakeId().equals(cakeId) &&
+                        item.getTier().equals(tier) &&
+                        item.getFlavour().equals(flavour) &&
+                        item.getSize().equals(size)) {
+
+                    item.setQuantity(quantity);
+                    item.setLastUpdated(System.currentTimeMillis());
+                    found = true;
+                    break;
+                }
+            }
+
+            // If not found, add new item
+            if (!found) {
+                InventoryItem newItem = new InventoryItem();
+                newItem.setCakeId(cakeId);
+                newItem.setTier(tier);
+                newItem.setFlavour(flavour);
+                newItem.setSize(size);
+                newItem.setQuantity(quantity);
+                newItem.setLastUpdated(System.currentTimeMillis());
+                inventoryList.add(newItem);
+            }
+
+            // Write back to file
+            Writer writer = new FileWriter(file);
+            gson.toJson(inventoryList, writer);
+            writer.close();
+
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Inner class for inventory item
+    public static class InventoryItem {
+        private String cakeId;
+        private String tier;
+        private String flavour;
+        private String size;
+        private int quantity;
+        private long lastUpdated;
+
+        public InventoryItem() {}
+
+        public String getCakeId() { return cakeId; }
+        public void setCakeId(String cakeId) { this.cakeId = cakeId; }
+
+        public String getTier() { return tier; }
+        public void setTier(String tier) { this.tier = tier; }
+
+        public String getFlavour() { return flavour; }
+        public void setFlavour(String flavour) { this.flavour = flavour; }
+
+        public String getSize() { return size; }
+        public void setSize(String size) { this.size = size; }
+
+        public int getQuantity() { return quantity; }
+        public void setQuantity(int quantity) { this.quantity = quantity; }
+
+        public long getLastUpdated() { return lastUpdated; }
+        public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
+    }
+}
