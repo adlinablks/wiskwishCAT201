@@ -53,14 +53,21 @@
             color: lightblue;
         }
 
-        .logout-button {
+        .header-button {
             background-color: lightblue;
             color: white;
             border: none;
+            font-size: 12px;
             padding: 10px 20px;
             border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .header-button:hover {
+            background-color: #4fc3f7;
         }
 
         .container {
@@ -167,13 +174,22 @@
             font-weight: bold;
         }
 
+        /* Container for Total and Action Button */
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
         .item-stock {
             background-color: lightblue;
             color: white;
             padding: 10px 15px;
             border-radius: 10px;
             font-weight: bold;
-            margin-right: 20px;
+            text-align: center;
+            min-width: 100px;
         }
 
         .update-button {
@@ -184,6 +200,14 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        /* CSS FOR DATE */
+        .last-updated {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -193,7 +217,8 @@
     <div class="header-title">Wisk Wish Dashboard</div>
     <div class="header-right">
         <span class="admin-text">Admin</span>
-        <button class="logout-button" onclick="location.href='logout.jsp'">Logout</button>
+        <a href="${pageContext.request.contextPath}/ExportInventoryServlet" class="header-button">Export Inventory</a>
+        <button class="header-button" onclick="location.href='logout.jsp'">Logout</button>
     </div>
 </div>
 
@@ -208,7 +233,6 @@
 
     <div class="tabs">
         <div class="tab">Review Order Status</div>
-        <div class="tab active">Inventory</div>
     </div>
 
     <div class="inventory-list">
@@ -224,7 +248,6 @@
                     {"C06", "Bomb Cake", "bomb-cake.jpg"}
             };
 
-            //noinspection JSPUnresolvedFunction
             ServletContext context = getServletContext();
 
             for (String[] cake : cakes) {
@@ -232,7 +255,7 @@
                 String cakeName = cake[1];
                 String cakeImage = cake[2];
 
-                // Get quantities for each customization option
+                // Get quantities
                 Map<String, Integer> tierQty = LoadInventoryServlet.getQuantitiesByTier(context, cakeId);
                 Map<String, Integer> flavourQty = LoadInventoryServlet.getQuantitiesByFlavour(context, cakeId);
                 Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
@@ -286,8 +309,12 @@
                     %>
                 </div>
             </div>
-            <div class="item-stock">Total: <%= totalQty %></div>
-            <a href="update-inventory.jsp?cakeId=<%= cakeId %>&cakeName=<%= java.net.URLEncoder.encode(cakeName, StandardCharsets.UTF_8) %>" class="update-button">Update Quantity</a>
+
+            <div class="item-actions">
+                <div class="item-stock">Total: <%= totalQty %></div>
+                <a href="update-inventory.jsp?cakeId=<%= cakeId %>&cakeName=<%= java.net.URLEncoder.encode(cakeName, StandardCharsets.UTF_8) %>" class="update-button">Update Quantity</a>
+            </div>
+
         </div>
 
         <%
