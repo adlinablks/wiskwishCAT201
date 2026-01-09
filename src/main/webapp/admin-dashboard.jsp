@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="controller.LoadInventoryServlet" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 
 <%
     String userRole = (String) session.getAttribute("userRole");
@@ -90,6 +93,16 @@
         .tab.active {
             background-color: lightblue;
             color: white;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            border: 2px solid #c3e6cb;
         }
 
         .inventory-list {
@@ -187,6 +200,12 @@
 <div class="container">
     <h1 class="page-title">Inventory</h1>
 
+    <% if ("success".equals(request.getParameter("update"))) { %>
+    <div class="success-message">
+        ✓ Inventory updated successfully!
+    </div>
+    <% } %>
+
     <div class="tabs">
         <div class="tab">Review Order Status</div>
         <div class="tab active">Inventory</div>
@@ -194,101 +213,86 @@
 
     <div class="inventory-list">
 
-        <!-- C01 -->
+        <%
+            // Define cake data
+            String[][] cakes = {
+                    {"C01", "Ribbon Cake", "ribbon-cake.jpg"},
+                    {"C02", "Stitch Cake", "stitch-cake.jpg"},
+                    {"C03", "Real Flower Cake", "two-tier-flower-cake.jpg"},
+                    {"C04", "Fox Cake", "fox-cake.jpg"},
+                    {"C05", "Drawn Flower Cake", "drawing-flower-cake.jpg"},
+                    {"C06", "Bomb Cake", "bomb-cake.jpg"}
+            };
+
+            //noinspection JSPUnresolvedFunction
+            ServletContext context = getServletContext();
+
+            for (String[] cake : cakes) {
+                String cakeId = cake[0];
+                String cakeName = cake[1];
+                String cakeImage = cake[2];
+
+                // Get quantities for each customization option
+                Map<String, Integer> tierQty = LoadInventoryServlet.getQuantitiesByTier(context, cakeId);
+                Map<String, Integer> flavourQty = LoadInventoryServlet.getQuantitiesByFlavour(context, cakeId);
+                Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
+                int totalQty = LoadInventoryServlet.getTotalQuantity(context, cakeId);
+        %>
+
         <div class="inventory-item">
             <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/ribbon-cake.jpg">
+                <img src="${pageContext.request.contextPath}/pictures/<%= cakeImage %>" alt="<%= cakeName %>">
             </div>
             <div class="item-details">
-                <div class="item-id">C01</div>
-                <div class="item-name">Ribbon Cake</div>
-                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (15)</span><span class="option-badge">2 Tiers (10)</span></div>
-                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (13)</span><span class="option-badge">Chocolate (12)</span></div>
-                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (14)</span><span class="option-badge">10 inch (11)</span></div>
+                <div class="item-id"><%= cakeId %></div>
+                <div class="item-name"><%= cakeName %></div>
+
+                <div class="customization-row">
+                    <span class="customization-label">Tier:</span>
+                    <%
+                        for (Map.Entry<String, Integer> entry : tierQty.entrySet()) {
+                            if (entry.getValue() > 0) {
+                    %>
+                    <span class="option-badge"><%= entry.getKey() %> (<%= entry.getValue() %>)</span>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+
+                <div class="customization-row">
+                    <span class="customization-label">Flavour:</span>
+                    <%
+                        for (Map.Entry<String, Integer> entry : flavourQty.entrySet()) {
+                            if (entry.getValue() > 0) {
+                    %>
+                    <span class="option-badge"><%= entry.getKey() %> (<%= entry.getValue() %>)</span>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+
+                <div class="customization-row">
+                    <span class="customization-label">Size:</span>
+                    <%
+                        for (Map.Entry<String, Integer> entry : sizeQty.entrySet()) {
+                            if (entry.getValue() > 0) {
+                    %>
+                    <span class="option-badge"><%= entry.getKey() %> (<%= entry.getValue() %>)</span>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
             </div>
-            <div class="item-stock">Total: 25</div>
-            <a href="update-inventory.jsp?cakeId=C01&cakeName=Ribbon%20Cake" class="update-button">Update Quantity</a>
+            <div class="item-stock">Total: <%= totalQty %></div>
+            <a href="update-inventory.jsp?cakeId=<%= cakeId %>&cakeName=<%= java.net.URLEncoder.encode(cakeName, StandardCharsets.UTF_8) %>" class="update-button">Update Quantity</a>
         </div>
 
-        <!-- C02 -->
-        <div class="inventory-item">
-            <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/stitch-cake.jpg">
-            </div>
-            <div class="item-details">
-                <div class="item-id">C02</div>
-                <div class="item-name">Stitch Cake</div>
-                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (10)</span><span class="option-badge">2 Tiers (8)</span></div>
-                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (9)</span><span class="option-badge">Chocolate (9)</span></div>
-                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (10)</span><span class="option-badge">10 inch (8)</span></div>
-            </div>
-            <div class="item-stock">Total: 18</div>
-            <a href="update-inventory.jsp?cakeId=C02&cakeName=Stitch%20Cake" class="update-button">Update Quantity</a>
-        </div>
-
-        <!-- C03 -->
-        <div class="inventory-item">
-            <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/two-tier-flower-cake.jpg">
-            </div>
-            <div class="item-details">
-                <div class="item-id">C03</div>
-                <div class="item-name">Real Flower Cake</div>
-                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (12)</span></div>
-                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (6)</span><span class="option-badge">Chocolate (6)</span></div>
-                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">10 inch (12)</span></div>
-            </div>
-            <div class="item-stock">Total: 12</div>
-            <a href="update-inventory.jsp?cakeId=C03&cakeName=Real%20Flower%20Cake" class="update-button">Update Quantity</a>
-        </div>
-
-        <!-- C04 -->
-        <div class="inventory-item">
-            <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/fox-cake.jpg">
-            </div>
-            <div class="item-details">
-                <div class="item-id">C04</div>
-                <div class="item-name">Fox Cake</div>
-                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (8)</span><span class="option-badge">2 Tiers (7)</span></div>
-                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (8)</span><span class="option-badge">Chocolate (7)</span></div>
-                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (8)</span><span class="option-badge">10 inch (7)</span></div>
-            </div>
-            <div class="item-stock">Total: 15</div>
-            <a href="update-inventory.jsp?cakeId=C04&cakeName=Fox%20Cake" class="update-button">Update Quantity</a>
-        </div>
-
-        <!-- C05 -->
-        <div class="inventory-item">
-            <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/drawing-flower-cake.jpg">
-            </div>
-            <div class="item-details">
-                <div class="item-id">C05</div>
-                <div class="item-name">Drawn Flower Cake</div>
-                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (20)</span></div>
-                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (10)</span><span class="option-badge">Chocolate (10)</span></div>
-                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (11)</span><span class="option-badge">10 inch (9)</span></div>
-            </div>
-            <div class="item-stock">Total: 20</div>
-            <a href="update-inventory.jsp?cakeId=C05&cakeName=Drawn%20Flower%20Cake" class="update-button">Update Quantity</a>
-        </div>
-
-        <!-- C06 -->
-        <div class="inventory-item">
-            <div class="item-image">
-                <img src="${pageContext.request.contextPath}/pictures/bomb-cake.jpg">
-            </div>
-            <div class="item-details">
-                <div class="item-id">C06</div>
-                <div class="item-name">Bomb Cake</div>
-                <div class="customization-row"><span class="customization-label">Tier:</span><span class="option-badge">1 Tier (10)</span></div>
-                <div class="customization-row"><span class="customization-label">Flavour:</span><span class="option-badge">Vanilla (5)</span><span class="option-badge">Chocolate (5)</span></div>
-                <div class="customization-row"><span class="customization-label">Size:</span><span class="option-badge">7 inch (10)</span></div>
-            </div>
-            <div class="item-stock">Total: 10</div>
-            <a href="update-inventory.jsp?cakeId=C06&cakeName=Bomb%20Cake" class="update-button">Update Quantity</a>
-        </div>
+        <%
+            }
+        %>
 
     </div>
 </div>
