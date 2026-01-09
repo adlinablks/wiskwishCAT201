@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import cat201project.model.InventoryItem;
 
 @WebServlet("/UpdateInventoryServlet")
@@ -66,7 +67,6 @@ public class UpdateInventoryServlet extends HttpServlet {
             boolean success = updateInventoryInJSON(cakeId, tier, flavour, size, quantity);
 
             if (success) {
-                // Redirect back to admin dashboard with success message
                 response.sendRedirect("admin-dashboard.jsp?update=success");
             } else {
                 request.setAttribute("error", "Failed to update inventory");
@@ -85,7 +85,6 @@ public class UpdateInventoryServlet extends HttpServlet {
 
     private boolean updateInventoryInJSON(String cakeId, String tier,
                                           String flavour, String size, int quantity) {
-
         try {
             String filePath = getServletContext().getRealPath("/WEB-INF/" + INVENTORY_FILE);
             File file = new File(filePath);
@@ -112,6 +111,9 @@ public class UpdateInventoryServlet extends HttpServlet {
                 inventoryList = new ArrayList<>();
             }
 
+            // Get current formatted date (e.g., "2026-01-10 13:45:00")
+            String currentDate = sdf.format(new Date());
+
             // Find and update the item
             boolean found = false;
             for (InventoryItem item : inventoryList) {
@@ -121,7 +123,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                         item.getSize().equals(size)) {
 
                     item.setQuantity(quantity);
-                    item.setLastUpdated(System.currentTimeMillis());
+                    item.setLastUpdated(currentDate); // Saves as String
                     found = true;
                     break;
                 }
@@ -135,7 +137,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                 newItem.setFlavour(flavour);
                 newItem.setSize(size);
                 newItem.setQuantity(quantity);
-                newItem.setLastUpdated(System.currentTimeMillis());
+                newItem.setLastUpdated(currentDate); // Saves as String
                 inventoryList.add(newItem);
             }
 

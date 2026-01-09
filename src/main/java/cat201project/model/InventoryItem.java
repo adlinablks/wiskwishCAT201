@@ -6,7 +6,7 @@ public class InventoryItem {
     private String flavour;
     private String size;
     private int quantity;
-    private long lastUpdated;
+    private String lastUpdated;
 
     public InventoryItem() {}
 
@@ -25,6 +25,6 @@ public class InventoryItem {
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public long getLastUpdated() { return lastUpdated; }
-    public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
+    public String getLastUpdated() { return lastUpdated; }
+    public void setLastUpdated(String lastUpdated) { this.lastUpdated = lastUpdated; }
 }
