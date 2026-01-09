@@ -61,6 +61,7 @@ public class LoadInventoryServlet extends HttpServlet {
         return result;
     }
 
+
     public static List<InventoryItem> loadAllItems(ServletContext context) {
         try {
             String filePath = context.getRealPath("/WEB-INF/" + INVENTORY_FILE);

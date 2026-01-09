@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import cat201project.model.InventoryItem;
 
@@ -22,9 +21,6 @@ public class UpdateInventoryServlet extends HttpServlet {
 
     private static final String INVENTORY_FILE = "inventory.json";
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-    // CHANGED: Use this format so it matches LoadInventoryServlet and sorts correctly!
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
