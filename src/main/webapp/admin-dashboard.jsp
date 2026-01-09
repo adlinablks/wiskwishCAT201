@@ -57,7 +57,7 @@
             background-color: lightblue;
             color: white;
             border: none;
-            font-size: 12px;
+            font-size: 14px;
             padding: 10px 20px;
             border-radius: 10px;
             font-weight: bold;
