@@ -7,9 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    // Destroy the session (deletes userEmail and userRole)
     session.invalidate();
 
-    // Redirect to homepage
     response.sendRedirect("homepage.jsp");
 %>

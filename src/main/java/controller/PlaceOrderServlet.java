@@ -14,15 +14,14 @@ import java.util.*;
 @WebServlet("/PlaceOrderServlet")
 public class PlaceOrderServlet extends HttpServlet {
 
-    // CHANGE 1: This was doPost, change it to doGet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // This handles the redirect from LoginServlet
+
         doPost(request, response);
     }
 
-    // CHANGE 2: This remains doPost and contains your logic
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,18 +31,18 @@ public class PlaceOrderServlet extends HttpServlet {
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
         if (userEmail == null || cart == null || cart.isEmpty()) {
-            response.sendRedirect("cart.jsp");
+            response.sendRedirect("cart-page.jsp");
             return;
         }
 
-        // 1. Path to your WEB-INF orders file
+
         String path = getServletContext().getRealPath("/WEB-INF/orders.json");
         File file = new File(path);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Map<String, Object>> allOrders = new ArrayList<>();
 
-        // 2. Read existing orders
+        // read existing orders
         if (file.exists()) {
             try (FileReader reader = new FileReader(file)) {
                 Type type = new TypeToken<List<Map<String, Object>>>(){}.getType();
@@ -52,7 +51,7 @@ public class PlaceOrderServlet extends HttpServlet {
             }
         }
 
-        // 3. Create the new Order Entry
+        // for new order
         Map<String, Object> orderEntry = new HashMap<>();
         orderEntry.put("userEmail", userEmail);
         orderEntry.put("orderDate", new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -71,13 +70,13 @@ public class PlaceOrderServlet extends HttpServlet {
         orderEntry.put("items", itemsList);
         allOrders.add(orderEntry);
 
-        // 4. Save back to file
+
         try (FileWriter writer = new FileWriter(file)) {
             gson.toJson(allOrders, writer);
-            writer.flush(); // Added flush for safety
+            writer.flush();
         }
 
-        // 5. Success! Clear cart and go to a thank you page
+
         response.sendRedirect("checkout.jsp?status=success");
     }
 }

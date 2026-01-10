@@ -2,11 +2,8 @@
 <%@ page import="controller.LoadInventoryServlet" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.io.File" %>
-<%@ page import="java.io.BufferedReader" %>
-<%@ page import="java.io.FileReader" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.io.*" %>
 
 <%
     //only allow admin to access this page
@@ -207,9 +204,12 @@
             font-weight: bold;
         }
 
-        .export-date strong {
-            color: lightblue;
-            font-weight: bold;
+        /* CSS FOR DATE */
+        .last-updated {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -229,31 +229,6 @@
 
 <div class="container">
     <h1 class="page-title">Inventory</h1>
-
-    <%
-        //read last export date
-        String lastExportDate = "Never";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
-
-        try {
-            String exportFilePath = getServletContext().getRealPath("/WEB-INF/last-export.txt");
-            File exportFile = new File(exportFilePath);
-            if (exportFile.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(exportFile));
-                String timestamp = reader.readLine();
-                reader.close();
-
-                if (timestamp != null && !timestamp.isEmpty()) {
-                    long ts = Long.parseLong(timestamp);
-                    Date date = new Date(ts);
-                    lastExportDate = dateFormat.format(date);
-                }
-            }
-        } catch (Exception e) {
-            lastExportDate = "Error reading date";
-        }
-    %>
-
 
     <% if ("success".equals(request.getParameter("update"))) { %>
     <div class="success-message">
@@ -292,6 +267,8 @@
                 Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
                 int totalQty = LoadInventoryServlet.getTotalQuantity(context, cakeId);
         %>
+
+
 
         <!-- individual cake inventory item -->
         <div class="inventory-item">
@@ -346,7 +323,7 @@
                 </div>
             </div>
 
-            <!--- total stocka and update button --->
+            <!--- total stocks and update button --->
             <div class="item-actions">
                 <div class="item-stock">Total: <%= totalQty %></div>
                 <a href="update-inventory.jsp?cakeId=<%= cakeId %>&cakeName=<%= java.net.URLEncoder.encode(cakeName, StandardCharsets.UTF_8) %>" class="update-button">Update Quantity</a>
