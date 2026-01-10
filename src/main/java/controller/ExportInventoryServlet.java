@@ -15,7 +15,6 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//handles inventory export function and generates summary report in JSON
 @WebServlet("/ExportInventoryServlet")
 public class ExportInventoryServlet extends HttpServlet {
 
@@ -71,7 +70,6 @@ public class ExportInventoryServlet extends HttpServlet {
 
         //add metadata
         summaryReport.put("exportDate", exportDate);
-        summaryReport.put("exportTimestamp", new Date().getTime());
 
         //calculate overall quantities for all cakes
         int grandTotal = 0;
@@ -113,11 +111,20 @@ public class ExportInventoryServlet extends HttpServlet {
             Map<String, Integer> flavourQty = new LinkedHashMap<>();
             Map<String, Integer> sizeQty = new LinkedHashMap<>();
             int totalQty = 0;
+            String mostRecentUpdate = null;
 
             //aggregate and calculate quantities
             for (InventoryItem item : inventoryList) {
                 if (item.getCakeId().equals(cakeId)) {
                     totalQty += item.getQuantity();
+
+                    //track most recent update for this cake
+                    if (item.getLastUpdated() != null) {
+                        if (mostRecentUpdate == null ||
+                                item.getLastUpdated().compareTo(mostRecentUpdate) > 0) {
+                            mostRecentUpdate = item.getLastUpdated();
+                        }
+                    }
 
                     //tier
                     String tier = item.getTier();
@@ -134,6 +141,19 @@ public class ExportInventoryServlet extends HttpServlet {
             }
 
             cakeData.put("totalQuantity", totalQty);
+
+            //add most recent update timestamp for this cake
+            if (mostRecentUpdate != null) {
+                try {
+                    // Convert the raw string timestamp to a Long, then format it
+                    long timestamp = Long.parseLong(mostRecentUpdate);
+                    // Use the dateFormat you already defined at the top of this method
+                    cakeData.put("lastUpdated", dateFormat.format(new Date(timestamp)));
+                } catch (NumberFormatException e) {
+                    // Safety fallback: if data is weird, just show raw value
+                    cakeData.put("lastUpdated", mostRecentUpdate);
+                }
+            }
 
             //format tier breakdowns
             List<String> tierList = new ArrayList<>();

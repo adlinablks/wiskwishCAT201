@@ -1,5 +1,9 @@
 package cat201project.model;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 //single inventory item for specific cake customization
 public class InventoryItem {
     private String cakeId;
@@ -42,5 +46,30 @@ public class InventoryItem {
             return String.valueOf(new java.util.Date().getTime());
         }
         return lastUpdated;
+    }
+
+    public String getLastUpdatedFormatted() {
+        //get the value (use your getter to handle the null check logic you wrote)
+        String timeString = getLastUpdated();
+
+        //safety check: If for some reason it's still null/empty, return a placeholder
+        if (timeString == null || timeString.isEmpty()) {
+            return "N/A";
+        }
+
+        try {
+            //convert String "1768..." to Long 1768...
+            long unixTime = Long.parseLong(timeString);
+
+            //format it
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a")
+                    .withZone(ZoneId.of("Asia/Kuala_Lumpur"));
+
+            return formatter.format(Instant.ofEpochMilli(unixTime));
+
+        } catch (NumberFormatException e) {
+            // This handles cases where the data might be corrupted (e.g. "abc")
+            return "Invalid Date";
+        }
     }
 }
