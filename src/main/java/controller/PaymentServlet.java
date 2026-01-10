@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+//process payment info and generated order confirmaion
 @WebServlet("/PaymentServlet")
 public class PaymentServlet extends HttpServlet {
 
@@ -19,20 +20,22 @@ public class PaymentServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        // Get payment information from form
+        //get payment information from form
         String paymentType = request.getParameter("paymentType");
         String paymentMethod = "";
 
+        //process card payment
         if ("card".equals(paymentType)) {
             String cardHolder = request.getParameter("cardHolder");
             String cardNumber = request.getParameter("cardNumber");
 
-            // Mask card number - show only last 4 digits
+            //mask card number - show only last 4 digits
             String maskedCard = "";
             if (cardNumber != null && !cardNumber.isEmpty()) {
-                // Remove spaces from card number
+                //remove spaces from card number
                 String cleanCard = cardNumber.replace(" ", "");
                 if (cleanCard.length() >= 4) {
+                    //extract last 4 digits
                     String lastFour = cleanCard.substring(cleanCard.length() - 4);
                     maskedCard = " (****" + lastFour + ")";
                 }
@@ -40,21 +43,24 @@ public class PaymentServlet extends HttpServlet {
 
             paymentMethod = "Card Payment - " + cardHolder + maskedCard;
 
+        //process online bank transfer
         } else if ("transfer".equals(paymentType)) {
             String bank = request.getParameter("bank");
             paymentMethod = "Online Transfer - " + bank;
         }
 
-        // Generate order details
+        //generate order number
         String orderNumber = "ORD" + System.currentTimeMillis();
 
+        //format current date and time
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy - hh:mm a");
         String orderDate = LocalDateTime.now().format(dateFormatter);
 
+        //calculate estimated delivery date - 5 days after
         DateTimeFormatter deliveryFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String estimatedDelivery = LocalDate.now().plusDays(5).format(deliveryFormatter);
 
-        // Get customer information from session
+        //get customer information from session
         String firstName = (String) session.getAttribute("firstName");
         String lastName = (String) session.getAttribute("lastName");
         String phone = (String) session.getAttribute("phone");
@@ -62,13 +68,13 @@ public class PaymentServlet extends HttpServlet {
         String city = (String) session.getAttribute("city");
         String postalCode = (String) session.getAttribute("postalCode");
 
-        // Get order totals from session
+        //get order totals from session
         Double subtotal = (Double) session.getAttribute("subtotal");
         Double tax = (Double) session.getAttribute("tax");
         Double delivery = (Double) session.getAttribute("delivery");
         Double total = (Double) session.getAttribute("total");
 
-        // Set attributes for confirmation page
+        //set attributes for confirmation page
         request.setAttribute("orderNumber", orderNumber);
         request.setAttribute("orderDate", orderDate);
         request.setAttribute("estimatedDelivery", estimatedDelivery);
@@ -84,7 +90,7 @@ public class PaymentServlet extends HttpServlet {
         request.setAttribute("delivery", delivery);
         request.setAttribute("total", total);
 
-        // Forward to confirmation page
+        //forward to confirmation page
         request.getRequestDispatcher("order-confirmation.jsp").forward(request, response);
     }
 }

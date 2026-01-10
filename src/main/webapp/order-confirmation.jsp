@@ -2,8 +2,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="cat201project.model.CartItem" %>
 <%
+    //get cart from session
     List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
+    //get customer info from request attribute
     String firstName = (String) request.getAttribute("firstName");
     String lastName = (String) request.getAttribute("lastName");
     String phone = (String) request.getAttribute("phone");
@@ -11,22 +13,25 @@
     String city = (String) request.getAttribute("city");
     String postalCode = (String) request.getAttribute("postalCode");
 
+    //get order total from request attribute
     Double subtotal = (Double) request.getAttribute("subtotal");
     Double tax = (Double) request.getAttribute("tax");
     Double delivery = (Double) request.getAttribute("delivery");
     Double total = (Double) request.getAttribute("total");
 
+    //get order details from request attributes
     String orderNumber = (String) request.getAttribute("orderNumber");
     String orderDate = (String) request.getAttribute("orderDate");
     String estimatedDelivery = (String) request.getAttribute("estimatedDelivery");
     String paymentMethod = (String) request.getAttribute("paymentMethod");
 
+    //provide default values if null
     if (subtotal == null) subtotal = 0.0;
     if (tax == null) tax = 0.0;
     if (delivery == null) delivery = 0.0;
     if (total == null) total = 0.0;
 
-    // Clear cart AFTER showing confirmation
+    //clear cart after showing confirmation
     session.removeAttribute("cart");
 %>
 
@@ -320,12 +325,13 @@
 </head>
 
 <body>
+<!-- header -->
 <div class="header">
     <div class="header-title">Wisk Wish</div>
 </div>
 
 <div class="container">
-    <!-- Success Banner -->
+    <!-- success banner -->
     <div class="success-banner">
         <h1>Order Successfully Placed!</h1>
         <div class="status-badge">Payment Confirmed</div>
@@ -335,10 +341,11 @@
         <div class="order-date"><%= orderDate %></div>
     </div>
 
-    <!-- Order Items -->
+    <!-- order items -->
     <div class="info-section">
         <div class="section-title">Order Items</div>
 
+        <!-- display each cart items -->
         <% if (cart != null && !cart.isEmpty()) {
             for (CartItem item : cart) { %>
         <div class="order-item">
@@ -353,6 +360,7 @@
 
         <hr class="summary-divider">
 
+        <!-- order total breakdown -->
         <div class="summary-row">
             <span class="summary-label">Subtotal</span>
             <span class="summary-value">RM <%= String.format("%.2f", subtotal) %></span>
@@ -368,11 +376,13 @@
             <span class="summary-value">RM <%= String.format("%.2f", tax) %></span>
         </div>
 
+        <!-- grand total -->
         <div class="total-row">
             <span>Total Paid</span>
             <span>RM <%= String.format("%.2f", total) %></span>
         </div>
 
+        <!-- payment method info -->
         <div class="payment-info">
             <div class="payment-method">
                 <span class="payment-label">Payment Method:</span>
@@ -381,21 +391,24 @@
         </div>
     </div>
 
-    <!-- Delivery Information -->
+    <!-- delivery info -->
     <div class="info-section">
         <div class="section-title">Delivery Information</div>
 
         <div class="info-grid">
+            <!-- customer name -->
             <div class="info-item">
                 <div class="info-label">Recipient Name</div>
                 <div class="info-value"><%= firstName %> <%= lastName %></div>
             </div>
 
+            <!-- contact number -->
             <div class="info-item">
                 <div class="info-label">Phone Number</div>
                 <div class="info-value"><%= phone %></div>
             </div>
 
+            <!-- full delivery address -->
             <div class="info-item full-width">
                 <div class="info-label">Delivery Address</div>
                 <div class="info-value">
@@ -405,13 +418,14 @@
             </div>
         </div>
 
+        <!-- estimated delivery date display -->
         <div class="delivery-timeline">
             <div class="timeline-label">Estimated Delivery Date</div>
             <div class="timeline-date"><%= estimatedDelivery %></div>
         </div>
     </div>
 
-    <!-- Action Buttons -->
+    <!-- action buttons -->
     <div class="action-buttons">
         <a href="homepage.jsp" class="btn btn-primary">Go Back to Homepage</a>
     </div>
