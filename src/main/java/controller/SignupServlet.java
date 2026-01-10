@@ -2,6 +2,7 @@ package controller;
 
 import cat201project.model.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -22,30 +23,53 @@ public class SignupServlet extends HttpServlet {
         String email = request.getParameter("email");
         String pass = request.getParameter("password");
 
-        Gson gson = new Gson();
-        List<User> userList = new ArrayList<>();
+        if (name == null || email == null || pass == null || name.isEmpty() || email.isEmpty()) {
+            response.sendRedirect("signup.jsp?error=emptyfields");
+            return;
+        }
 
-        // 1. Read existing users
-        String path = getServletContext().getRealPath("/") + FILE_PATH;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        //String path = getServletContext().getRealPath("/") + FILE_PATH;
+        // Notice the addition of WEB-INF in the string
+        String path = getServletContext().getRealPath("/WEB-INF/") + FILE_PATH;
         File file = new File(path);
 
+        List<User> userList = new ArrayList<>();
+
+        // Read existing users if the file exists
         if (file.exists()) {
             try (FileReader reader = new FileReader(file)) {
                 Type listType = new TypeToken<ArrayList<User>>(){}.getType();
                 userList = gson.fromJson(reader, listType);
-                if (userList == null) userList = new ArrayList<>();
+                if (userList == null) {
+                    userList = new ArrayList<>();
+                }
             }
         }
 
-        // 2. Add the new user as a "user" role
-        userList.add(new User(name, email, pass, "user"));
-
-        // 3. Save updated list back to users.json
-        try (FileWriter writer = new FileWriter(file)) {
-            gson.toJson(userList, writer);
+        //  Check if email already exists
+        for (User u : userList) {
+            if (u.getEmail().equalsIgnoreCase(email)) {
+                // If email is found, stop and go back to signup page
+                response.sendRedirect("signup.jsp?error=exists");
+                return;
+            }
         }
 
-        // Go to login page so they can sign in
-        response.sendRedirect("login.jsp");
+        // dd the new user
+        userList.add(new User(name, email, pass, "user"));
+
+        // Save updated list back to users.json
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(userList, writer);
+            System.out.println("Successfully saved user to: " + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.sendRedirect("signup.jsp?error=servererror");
+            return;
+        }
+
+        // Redirect to login page
+        response.sendRedirect("login.jsp?signup=success");
     }
 }
