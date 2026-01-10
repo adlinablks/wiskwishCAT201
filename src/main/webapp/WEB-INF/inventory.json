@@ -4,47 +4,62 @@
     "tier": "1 Tier",
     "flavour": "Vanilla",
     "size": "7 inch",
-    "quantity": 1,
-    "lastUpdated": 1704844800000
+    "quantity": 1
   },
   {
     "cakeId": "C01",
-    "tier": "1 Tier",
-    "flavour": "Vanilla",
+    "tier": "2 Tiers",
+    "flavour": "Chocolate",
     "size": "10 inch",
-    "quantity": 1,
-    "lastUpdated": 1704844800000
+    "quantity": 7
   },
   {
     "cakeId": "C02",
     "tier": "1 Tier",
     "flavour": "Chocolate",
     "size": "7 inch",
-    "quantity": 2,
-    "lastUpdated": 1704844800000
+    "quantity": 2
+  },
+  {
+    "cakeId": "C02",
+    "tier": "1 Tier",
+    "flavour": "Vanilla",
+    "size": "7 inch",
+    "quantity": 8
+  },
+  {
+    "cakeId": "C03",
+    "tier": "1 Tier",
+    "flavour": "Vanilla",
+    "size": "10 inch",
+    "quantity": 5
   },
   {
     "cakeId": "C04",
     "tier": "1 Tier",
     "flavour": "Vanilla",
     "size": "7 inch",
-    "quantity": 8,
-    "lastUpdated": 1704844800000
+    "quantity": 8
   },
   {
     "cakeId": "C05",
     "tier": "1 Tier",
     "flavour": "Vanilla",
     "size": "7 inch",
-    "quantity": 10,
-    "lastUpdated": 1704844800000
+    "quantity": 10
   },
   {
     "cakeId": "C06",
     "tier": "1 Tier",
     "flavour": "Vanilla",
     "size": "7 inch",
-    "quantity": 1,
-    "lastUpdated": 1704844800000
+    "quantity": 4
+  },
+  {
+    "cakeId": "C06",
+    "tier": "1 Tier",
+    "flavour": "Chocolate",
+    "size": "7 inch",
+    "quantity": 5
   }
 ]

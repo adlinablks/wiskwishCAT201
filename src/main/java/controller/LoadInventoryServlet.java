@@ -1,7 +1,8 @@
 package controller;
-import cat201project.model.InventoryItem;
 
+import cat201project.model.InventoryItem;
 import java.io.*;
+import java.util.*;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,10 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.*;
 
-//provide statistic utility methods to load and query inventory data
-//admin dashboard use to display inventory info
 @WebServlet("/LoadInventoryServlet")
 public class LoadInventoryServlet extends HttpServlet {
 
@@ -47,7 +45,7 @@ public class LoadInventoryServlet extends HttpServlet {
         return getQuantitiesByOption(context, cakeId, "size");
     }
 
-    //get quantities by size for specific cake
+    //get quantities by option type for specific cake
     private static Map<String, Integer> getQuantitiesByOption(ServletContext context,
                                                               String cakeId, String optionType) {
         List<InventoryItem> items = loadAllItems(context);
@@ -88,5 +86,57 @@ public class LoadInventoryServlet extends HttpServlet {
             System.err.println("Error loading inventory: " + e.getMessage());
             return new ArrayList<>();
         }
+    }
+
+    //save inventory items to json file with updated timestamp
+    public static boolean saveInventory(ServletContext context, List<InventoryItem> items) {
+        try {
+            String filePath = context.getRealPath("/WEB-INF/" + INVENTORY_FILE);
+            File file = new File(filePath);
+
+            file.getParentFile().mkdirs();
+
+            try (FileWriter writer = new FileWriter(file)) {
+                gson.toJson(items, writer);
+                writer.flush();
+            }
+            return true;
+
+        } catch (Exception e) {
+            System.err.println("Error saving inventory: " + e.getMessage());
+            return false;
+        }
+    }
+
+    //update quantity for a specific inventory item
+    public static boolean updateItemQuantity(ServletContext context, String cakeId,
+                                             String tier, String flavour, String size, int newQuantity) {
+        List<InventoryItem> items = loadAllItems(context);
+        boolean updated = false;
+
+        for (InventoryItem item : items) {
+            if (item.getCakeId().equals(cakeId) &&
+                    item.getTier().equals(tier) &&
+                    item.getFlavour().equals(flavour) &&
+                    item.getSize().equals(size)) {
+
+                item.setQuantity(newQuantity);
+                item.setLastUpdated(String.valueOf(System.currentTimeMillis()));
+                updated = true;
+                break;
+            }
+        }
+
+        if (updated) {
+            return saveInventory(context, items);
+        }
+        return false;
+    }
+
+    //add new inventory item with timestamp
+    public static boolean addInventoryItem(ServletContext context, InventoryItem newItem) {
+        List<InventoryItem> items = loadAllItems(context);
+        items.add(newItem);
+        return saveInventory(context, items);
     }
 }
