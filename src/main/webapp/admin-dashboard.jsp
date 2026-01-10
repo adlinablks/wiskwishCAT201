@@ -2,6 +2,11 @@
 <%@ page import="controller.LoadInventoryServlet" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.FileReader" %>
 
 <%
     //only allow admin to access this page
@@ -202,12 +207,9 @@
             font-weight: bold;
         }
 
-        /* CSS FOR DATE */
-        .last-updated {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-            font-style: italic;
+        .export-date strong {
+            color: lightblue;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -252,12 +254,6 @@
         }
     %>
 
-    <!-- display last export information -->
-    <div class="export-info">
-        <div class="export-date">
-            Last inventory export: <strong><%= lastExportDate %></strong>
-        </div>
-    </div>
 
     <% if ("success".equals(request.getParameter("update"))) { %>
     <div class="success-message">
@@ -271,8 +267,6 @@
 
     <div class="inventory-list">
 
-        <!--<%
-            // Define cake data
         <%
             //define cake data
             String[][] cakes = {
@@ -297,9 +291,7 @@
                 Map<String, Integer> flavourQty = LoadInventoryServlet.getQuantitiesByFlavour(context, cakeId);
                 Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
                 int totalQty = LoadInventoryServlet.getTotalQuantity(context, cakeId);
-        %>-->
-
-
+        %>
 
         <!-- individual cake inventory item -->
         <div class="inventory-item">
