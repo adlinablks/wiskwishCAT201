@@ -29,8 +29,6 @@ public class SignupServlet extends HttpServlet {
         }
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        //String path = getServletContext().getRealPath("/") + FILE_PATH;
-        // Notice the addition of WEB-INF in the string
         String path = getServletContext().getRealPath("/WEB-INF/") + FILE_PATH;
         File file = new File(path);
 
@@ -56,7 +54,6 @@ public class SignupServlet extends HttpServlet {
             }
         }
 
-        // dd the new user
         userList.add(new User(name, email, pass, "user"));
 
         // Save updated list back to users.json
@@ -69,7 +66,6 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        // Redirect to login page
         response.sendRedirect("login.jsp?signup=success");
     }
 }

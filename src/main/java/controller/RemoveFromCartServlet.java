@@ -20,31 +20,27 @@ public class RemoveFromCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Get the ID of the item to be removed
         String itemIdToRemove = request.getParameter("itemId");
 
-        // 2. Access the current session
         HttpSession session = request.getSession();
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
         if (cart != null && itemIdToRemove != null) {
-            // 3. Use an Iterator to safely remove the item by its ID
+
             Iterator<CartItem> iterator = cart.iterator();
             while (iterator.hasNext()) {
                 CartItem item = iterator.next();
 
-                // Compare the ID (Ensure your CartItem class has a getId() method)
+
                 if (item.getId().equals(itemIdToRemove)) {
                     iterator.remove();
-                    break; // Exit loop once the item is found and removed
+                    break;
                 }
             }
 
-            // 4. Update the session attribute
             session.setAttribute("cart", cart);
         }
 
-        // 5. Redirect the user back to the cart page to see the updated list
         response.sendRedirect("cart-page.jsp");
     }
 }

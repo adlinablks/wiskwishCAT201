@@ -2,6 +2,8 @@
 <%@ page import="controller.LoadInventoryServlet" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.io.*" %>
 
 <%
     //only allow admin to access this page
@@ -228,37 +230,6 @@
 <div class="container">
     <h1 class="page-title">Inventory</h1>
 
-    <%
-        //read last export date
-        String lastExportDate = "Never";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
-
-        try {
-            String exportFilePath = getServletContext().getRealPath("/WEB-INF/last-export.txt");
-            File exportFile = new File(exportFilePath);
-            if (exportFile.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(exportFile));
-                String timestamp = reader.readLine();
-                reader.close();
-
-                if (timestamp != null && !timestamp.isEmpty()) {
-                    long ts = Long.parseLong(timestamp);
-                    Date date = new Date(ts);
-                    lastExportDate = dateFormat.format(date);
-                }
-            }
-        } catch (Exception e) {
-            lastExportDate = "Error reading date";
-        }
-    %>
-
-    <!-- display last export information -->
-    <div class="export-info">
-        <div class="export-date">
-            Last inventory export: <strong><%= lastExportDate %></strong>
-        </div>
-    </div>
-
     <% if ("success".equals(request.getParameter("update"))) { %>
     <div class="success-message">
         ✓ Inventory updated successfully!
@@ -271,8 +242,6 @@
 
     <div class="inventory-list">
 
-        <%
-            // Define cake data
         <%
             //define cake data
             String[][] cakes = {
@@ -354,7 +323,7 @@
                 </div>
             </div>
 
-            <!--- total stocka and update button --->
+            <!--- total stocks and update button --->
             <div class="item-actions">
                 <div class="item-stock">Total: <%= totalQty %></div>
                 <a href="update-inventory.jsp?cakeId=<%= cakeId %>&cakeName=<%= java.net.URLEncoder.encode(cakeName, StandardCharsets.UTF_8) %>" class="update-button">Update Quantity</a>
