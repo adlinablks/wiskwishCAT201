@@ -2,8 +2,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="cat201project.model.CartItem" %>
 <%
+    //retrieve cart from session
     List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
+    //calculate order total
     double subtotal = 0;
     if (cart != null) {
         for (CartItem item : cart) {
@@ -11,6 +13,7 @@
         }
     }
 
+    //calculate add charges
     double tax = subtotal * 0.06;
     double delivery = 15.0;
     double total = subtotal + tax + delivery;
@@ -259,6 +262,7 @@
 </head>
 <body>
 
+<!-- header -->
 <div class="header">
     <div class="header-title">Wisk Wish</div>
 </div>
@@ -268,6 +272,7 @@
 
     <div class="checkout-container">
 
+        <!-- customer info form -->
         <form id="checkoutForm" class="checkout-form" action="CheckoutServlet" method="post">
 
             <div class="form-section">
@@ -299,6 +304,7 @@
                 </div>
             </div>
 
+            <!-- delivery address section -->
             <div class="form-section">
                 <div class="section-title">Delivery Address</div>
                 <div class="form-row">
@@ -324,9 +330,11 @@
 
         </form>
 
+        <!-- order summary sidebar -->
         <div class="order-summary">
             <div class="summary-title">Order Summary</div>
 
+            <!-- cart item list -->
             <div id="order-items">
                 <% if (cart == null || cart.isEmpty()) { %>
                 <div>Your cart is empty</div>
@@ -342,6 +350,7 @@
 
             <hr class="summary-divider">
 
+            <!-- order total breakdown -->
             <div class="summary-row">
                 <span class="summary-label">Subtotal</span>
                 <span class="summary-value">RM <%= String.format("%.2f", subtotal) %></span>
@@ -357,11 +366,13 @@
                 <span class="summary-value">RM <%= String.format("%.2f", tax) %></span>
             </div>
 
+            <!-- grand total -->
             <div class="summary-total">
                 <span class="total-label">Total</span>
                 <span class="total-value">RM <%= String.format("%.2f", total) %></span>
             </div>
 
+            <!-- action button -->
             <button type="submit" form="checkoutForm" class="checkout-btn">Proceed to Payment</button>
             <form action="cart-page.jsp" method="get">
                 <button type="submit" class="back-btn">Back to Cart</button>

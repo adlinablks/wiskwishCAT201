@@ -8,6 +8,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+//prepares and diplays order confirmation details
 @WebServlet("/OrderConfirmationServlet")
 public class OrderConfirmationServlet extends HttpServlet {
 
@@ -17,7 +18,7 @@ public class OrderConfirmationServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        // Get customer info from session
+        //get customer info from session
         String firstName = (String) session.getAttribute("firstName");
         String lastName = (String) session.getAttribute("lastName");
         String email = (String) session.getAttribute("email");
@@ -26,17 +27,17 @@ public class OrderConfirmationServlet extends HttpServlet {
         String city = (String) session.getAttribute("city");
         String postalCode = (String) session.getAttribute("postalCode");
 
-        // Get cart
+        //get cart from session
         @SuppressWarnings("unchecked")
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
-        // Get totals from session (already calculated in CheckoutServlet)
+        //get totals from session - already calculated in CheckoutServlet
         Double subtotal = (Double) session.getAttribute("subtotal");
         Double tax = (Double) session.getAttribute("tax");
         Double delivery = (Double) session.getAttribute("delivery");
         Double total = (Double) session.getAttribute("total");
 
-        // If totals are null, calculate them
+        //if totals are null, calculate them
         if (subtotal == null) {
             subtotal = 0.0;
             if (cart != null) {
@@ -49,25 +50,25 @@ public class OrderConfirmationServlet extends HttpServlet {
             total = subtotal + tax + delivery;
         }
 
-        // Generate order number
+        //generate order number
         String orderNumber = "WW" + System.currentTimeMillis();
 
-        // Get current date
+        //get current date
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm a");
         String orderDate = dateFormat.format(new Date());
 
-        // Estimated delivery (5 business days)
+        //estimated delivery - 5 business days
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, 5);
         String estimatedDelivery = new SimpleDateFormat("MMMM dd, yyyy").format(cal.getTime());
 
-        // Get payment info from session
+        //get payment info from session
         String paymentMethod = (String) session.getAttribute("paymentMethod");
         if (paymentMethod == null) {
             paymentMethod = "Payment Completed";
         }
 
-        // Set attributes for JSP
+        //set attributes for confirmation page JSP
         request.setAttribute("firstName", firstName);
         request.setAttribute("lastName", lastName);
         request.setAttribute("email", email);
@@ -84,10 +85,11 @@ public class OrderConfirmationServlet extends HttpServlet {
         request.setAttribute("estimatedDelivery", estimatedDelivery);
         request.setAttribute("paymentMethod", paymentMethod);
 
-        // Forward to order confirmation page
+        //forward to order confirmation page
         request.getRequestDispatcher("order-confirmation.jsp").forward(request, response);
     }
 
+    //handle post request same as GET
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="cat201project.model.CartItem" %>
 <%
+    //get cart and order totals from session
     List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
     Double subtotal = (Double) session.getAttribute("subtotal");
     Double tax = (Double) session.getAttribute("tax");
@@ -280,6 +281,7 @@
 </head>
 
 <body>
+<!-- header -->
 <div class="header">
     <div class="header-title">Wisk Wish</div>
 </div>
@@ -287,19 +289,22 @@
 <div class="container">
     <h1>Select Payment Method</h1>
 
+    <!-- tab radio buttons - hidden -->
     <input type="radio" name="payment-tab" id="tab-card" class="tab-input" checked>
     <input type="radio" name="payment-tab" id="tab-transfer" class="tab-input">
 
+    <!-- tab labels for switching between payment methods -->
     <div class="payment-tabs">
         <label for="tab-card" class="tab-label">Card Payment</label>
         <label for="tab-transfer" class="tab-label">Online Transfer</label>
     </div>
 
     <div class="forms-container">
-        <!-- Card Payment Form -->
+        <!-- card payment form -->
         <div id="card-form" class="payment-form">
             <h2>Card Payment (Visa / MasterCard)</h2>
             <form action="PaymentServlet" method="post">
+                <!-- card number input with auto format -->
                 <div class="form-group full">
                     <label for="cardNumber">Card Number *</label>
                     <input
@@ -316,6 +321,7 @@
                 </div>
 
                 <div class="form-row">
+                    <!-- expiry date with auto format -->
                     <div class="form-group">
                         <label for="expiryDate">Expiration Date *</label>
                         <input
@@ -331,6 +337,7 @@
                         <span class="error-text">Enter valid expiry (MM/YY)</span>
                     </div>
 
+                    <!-- CVV input - 3 digits only -->
                     <div class="form-group">
                         <label for="cvv">CVV *</label>
                         <input
@@ -347,6 +354,7 @@
                     </div>
                 </div>
 
+                <!-- card holder name -->
                 <div class="form-group full">
                     <label for="cardHolder">Card Holder Name *</label>
                     <input
@@ -354,8 +362,7 @@
                             id="cardHolder"
                             name="cardHolder"
                             pattern="[A-Za-z\s]{2,}"
-                            placeholder="
-"
+                            placeholder=""
                             minlength="2"
                             title="Enter the full name on the card"
                             oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')"
@@ -368,7 +375,7 @@
             </form>
         </div>
 
-        <!-- Bank Transfer Form -->
+        <!-- bank transfer form -->
         <div id="transfer-form" class="payment-form">
             <h2>Select Bank for Online Transfer</h2>
             <form action="PaymentServlet" method="post">
@@ -386,15 +393,18 @@
                     <span class="error-text">Please select a bank</span>
                 </div>
 
+                <!-- hidden field to identify oayment type -->
                 <input type="hidden" name="paymentType" value="transfer">
                 <button type="submit" class="submit-btn">Proceed to Payment Approval</button>
             </form>
         </div>
     </div>
 
+    <!-- order cart summary -->
     <div class="cart-summary">
         <h2>Order Summary</h2>
 
+        <!-- display cart items -->
         <div class="cart-items">
             <% if (cart == null || cart.isEmpty()) { %>
             <div>Your cart is empty</div>
@@ -413,6 +423,7 @@
 
         <hr class="summary-divider">
 
+        <!-- order total breakdown -->
         <div class="summary-row">
             <span class="summary-label">Subtotal</span>
             <span class="summary-value">RM <%= String.format("%.2f", subtotal) %></span>
@@ -428,6 +439,7 @@
             <span class="summary-value">RM <%= String.format("%.2f", tax) %></span>
         </div>
 
+        <!-- grand total -->
         <div class="total-row">
             <span>Total</span>
             <span>RM <%= String.format("%.2f", total) %></span>
