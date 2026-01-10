@@ -2,9 +2,6 @@
 <%@ page import="controller.LoadInventoryServlet" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.io.*" %>
 
 <%
     String userRole = (String) session.getAttribute("userRole");
@@ -84,25 +81,6 @@
             color: white;
             font-weight: bold;
             margin-bottom: 25px;
-        }
-
-        .export-info {
-            background-color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .export-date {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .export-date strong {
-            color: lightblue;
         }
 
         .tabs {
@@ -196,6 +174,7 @@
             font-weight: bold;
         }
 
+        /* Container for Total and Action Button */
         .item-actions {
             display: flex;
             flex-direction: column;
@@ -221,6 +200,14 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        /* CSS FOR DATE */
+        .last-updated {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -230,43 +217,14 @@
     <div class="header-title">Wisk Wish Dashboard</div>
     <div class="header-right">
         <span class="admin-text">Admin</span>
-        <a href="${pageContext.request.contextPath}/ExportInventoryServlet?type=summary" class="header-button">Export Inventory</a>
+        <a href="${pageContext.request.contextPath}/ExportInventoryServlet" class="header-button">Export Inventory</a>
+        <a href="${pageContext.request.contextPath}/ExportOrderServlet" class="header-button">Export Orders</a>
         <button class="header-button" onclick="location.href='logout.jsp'">Logout</button>
     </div>
 </div>
 
 <div class="container">
     <h1 class="page-title">Inventory</h1>
-
-    <%
-        // Read last export date
-        String lastExportDate = "Never";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
-
-        try {
-            String exportFilePath = getServletContext().getRealPath("/WEB-INF/last-export.txt");
-            File exportFile = new File(exportFilePath);
-            if (exportFile.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(exportFile));
-                String timestamp = reader.readLine();
-                reader.close();
-
-                if (timestamp != null && !timestamp.isEmpty()) {
-                    long ts = Long.parseLong(timestamp);
-                    Date date = new Date(ts);
-                    lastExportDate = dateFormat.format(date);
-                }
-            }
-        } catch (Exception e) {
-            lastExportDate = "Error reading date";
-        }
-    %>
-
-    <div class="export-info">
-        <div class="export-date">
-            Last inventory export: <strong><%= lastExportDate %></strong>
-        </div>
-    </div>
 
     <% if ("success".equals(request.getParameter("update"))) { %>
     <div class="success-message">
@@ -280,7 +238,7 @@
 
     <div class="inventory-list">
 
-        <%
+        <!--<%
             // Define cake data
             String[][] cakes = {
                     {"C01", "Ribbon Cake", "ribbon-cake.jpg"},
@@ -291,7 +249,7 @@
                     {"C06", "Bomb Cake", "bomb-cake.jpg"}
             };
 
-            ServletContext context = getServletContext();
+            ServletContext context = application;
 
             for (String[] cake : cakes) {
                 String cakeId = cake[0];
@@ -303,7 +261,9 @@
                 Map<String, Integer> flavourQty = LoadInventoryServlet.getQuantitiesByFlavour(context, cakeId);
                 Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
                 int totalQty = LoadInventoryServlet.getTotalQuantity(context, cakeId);
-        %>
+        %>-->
+
+
 
         <div class="inventory-item">
             <div class="item-image">

@@ -502,6 +502,7 @@
     RM <%= String.format("%.2f", total) %></span>
             </div>
 
+            <!--
             <% if (userIsLoggedIn) { %>
             <form action="checkout.jsp" method="get">
                 <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
@@ -509,6 +510,20 @@
             <% } else { %>
             <form action="login.jsp" method="get">
                 <input type="hidden" name="redirect" value="checkout.jsp">
+                <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
+            </form>
+            <% } %>
+-->
+
+            <% if (userIsLoggedIn) { %>
+            <%-- Case 1: Logged in - Go directly to Servlet to save and then checkout --%>
+            <form action="PlaceOrderServlet" method="post">
+                <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
+            </form>
+            <% } else { %>
+            <%-- Case 2: Not logged in - Go to login first, then to PlaceOrderServlet --%>
+            <form action="login.jsp" method="get">
+                <input type="hidden" name="redirect" value="PlaceOrderServlet">
                 <button type="submit" class="checkout-btn">PROCEED TO CHECKOUT</button>
             </form>
             <% } %>

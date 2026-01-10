@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Test User",
+    "email": "test@gmail.com",
+    "password": "123",
+    "role": "user"
+  },
+  {
+    "name": "Admin Account",
+    "email": "admin@wiskwish.com",
+    "password": "admin123",
+    "role": "admin"
+  }
+]

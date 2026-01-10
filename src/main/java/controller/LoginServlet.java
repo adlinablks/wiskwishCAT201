@@ -20,20 +20,20 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String pass = request.getParameter("password");
-        String redirectTo = request.getParameter("redirect");
+        String redirectTo = request.getParameter("redirect"); // This is your 'PlaceOrderServlet' param
         HttpSession session = request.getSession();
 
-        // 1. CHECK FOR ADMIN FIRST
+        // 1. CHECK FOR ADMIN HARDCODED
         if ("admin@wiskwish.com".equals(email) && "admin123".equals(pass)) {
             session.setAttribute("userRole", "admin");
             session.setAttribute("isLoggedIn", true);
             response.sendRedirect("admin-dashboard.jsp");
-            return;
+            return; // Stop here
         }
 
         // 2. CHECK JSON FOR REGULAR USER
         Gson gson = new Gson();
-        String path = getServletContext().getRealPath("/") + FILE_PATH;
+        String path = getServletContext().getRealPath("/WEB-INF/") + FILE_PATH;
         File file = new File(path);
 
         if (file.exists()) {
@@ -44,16 +44,25 @@ public class LoginServlet extends HttpServlet {
                 if (users != null) {
                     for (User u : users) {
                         if (u.getEmail().equals(email) && u.getPassword().equals(pass)) {
+                            // User verified!
                             session.setAttribute("userEmail", email);
-                            session.setAttribute("userRole", "user");
+                            session.setAttribute("userRole", u.getRole() != null ? u.getRole() : "user");
                             session.setAttribute("isLoggedIn", true);
 
-                            // Return to previous page or Home
+                            // PRIORITY 1: Check if user is an admin based on JSON role
+                            if ("admin".equals(u.getRole())) {
+                                response.sendRedirect("admin-dashboard.jsp");
+                                return;
+                            }
+
+                            // PRIORITY 2: Check for specific redirects (like PlaceOrderServlet)
                             if (redirectTo != null && !redirectTo.isEmpty()) {
                                 response.sendRedirect(redirectTo);
-                            } else {
-                                response.sendRedirect("homepage.jsp");
+                                return;
                             }
+
+                            // PRIORITY 3: Default to Homepage
+                            response.sendRedirect("cart-page.jsp");
                             return;
                         }
                     }
@@ -61,7 +70,7 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        // 3. If login fails
+        // 3. If no user matched or file doesn't exist
         response.sendRedirect("login.jsp?error=invalid");
-    }
-}
+        return;
+    }}
