@@ -8,7 +8,6 @@
         return;
     }
 
-    //gett cake details from URL parameters
     String cakeId = request.getParameter("cakeId");
     String cakeName = request.getParameter("cakeName");
 

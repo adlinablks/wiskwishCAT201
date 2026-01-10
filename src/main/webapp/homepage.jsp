@@ -453,6 +453,7 @@
         <div class="nav-links">
             <a class="nav-link" href="#home">Home</a>
             <a class="nav-link" href="#cakes">Our Cakes</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/cart-page.jsp" style="display: flex; align-items: center; gap: 5px;">Your Cart</a>
             <a class="nav-link" href="#about">About</a>
             <a class="nav-link" href="#contact">Contact</a>
         </div>
