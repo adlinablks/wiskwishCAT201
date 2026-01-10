@@ -1,16 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
+    //only admin to access this page
     String userRole = (String) session.getAttribute("userRole");
     if (userRole == null || !userRole.equals("admin")) {
         response.sendRedirect("login.jsp");
         return;
     }
 
+    //gett cake details from URL parameters
     String cakeId = request.getParameter("cakeId");
     String cakeName = request.getParameter("cakeName");
 
-    // Check if coming from error redirect
+    //check if coming from error redirect
     if (cakeId == null) {
         cakeId = (String) request.getAttribute("cakeId");
     }
@@ -18,6 +20,7 @@
         cakeName = (String) request.getAttribute("cakeName");
     }
 
+    //redirect back to dashboard if there is parameter missing
     if (cakeId == null || cakeName == null) {
         response.sendRedirect("admin-dashboard.jsp");
         return;
@@ -209,6 +212,7 @@
     </style>
 </head>
 <body>
+<!-- header with back button -->
 <div class="header">
     <div class="header-title">Wisk Wish Dashboard</div>
     <a href="admin-dashboard.jsp" class="back-button">Back to Inventory</a>
@@ -218,27 +222,32 @@
     <h1 class="page-title">Update Inventory Quantity</h1>
 
     <div class="form-card">
+        <!-- display success message -->
         <% if (request.getAttribute("success") != null) { %>
         <div class="alert alert-success">
             <%= request.getAttribute("success") %>
         </div>
         <% } %>
 
+        <!-- display success message -->
         <% if (request.getAttribute("error") != null) { %>
         <div class="alert alert-error">
             <%= request.getAttribute("error") %>
         </div>
         <% } %>
 
+        <!-- display cake info -->
         <div class="cake-info">
             <div class="cake-info-title"><%= cakeName %></div>
             <div class="cake-info-id">Product ID: <%= cakeId %></div>
         </div>
 
+        <!-- inventory update form -->
         <form action="${pageContext.request.contextPath}/UpdateInventoryServlet" method="POST">
             <input type="hidden" name="cakeId" value="<%= cakeId %>">
             <input type="hidden" name="cakeName" value="<%= cakeName %>">
 
+            <!-- select tier -->
             <div class="form-group">
                 <label for="tier" class="form-label">Tier</label>
                 <select name="tier" id="tier" class="form-select" required>
@@ -248,6 +257,7 @@
                 </select>
             </div>
 
+            <!-- select flavour -->
             <div class="form-group">
                 <label for="flavour" class="form-label">Flavour</label>
                 <select name="flavour" id="flavour" class="form-select" required>
@@ -257,6 +267,7 @@
                 </select>
             </div>
 
+            <!-- select size -->
             <div class="form-group">
                 <label for="size" class="form-label">Size</label>
                 <select name="size" id="size" class="form-select" required>
@@ -266,6 +277,7 @@
                 </select>
             </div>
 
+            <!-- enter quantity -->
             <div class="form-group">
                 <label for="quantity" class="form-label">New Quantity</label>
                 <input type="number" name="quantity" id="quantity"
@@ -273,6 +285,7 @@
                        placeholder="Enter new quantity">
             </div>
 
+            <!-- action button -->
             <div class="button-group">
                 <a href="admin-dashboard.jsp" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Update Quantity</button>
