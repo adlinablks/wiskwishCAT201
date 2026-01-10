@@ -11,12 +11,15 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.*;
 
+//provide statistic utility methods to load and query inventory data
+//admin dashboard use to display inventory info
 @WebServlet("/LoadInventoryServlet")
 public class LoadInventoryServlet extends HttpServlet {
 
     private static final String INVENTORY_FILE = "inventory.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+    //get total quantity for all cakes
     public static int getTotalQuantity(ServletContext context, String cakeId) {
         List<InventoryItem> items = loadAllItems(context);
         int total = 0;
@@ -29,21 +32,24 @@ public class LoadInventoryServlet extends HttpServlet {
         return total;
     }
 
+    //get quantities by tier for specific cake
     public static Map<String, Integer> getQuantitiesByTier(ServletContext context, String cakeId) {
         return getQuantitiesByOption(context, cakeId, "tier");
     }
 
+    //get quantities by flavour for specific cake
     public static Map<String, Integer> getQuantitiesByFlavour(ServletContext context, String cakeId) {
         return getQuantitiesByOption(context, cakeId, "flavour");
     }
 
+    //get quantities by size for specific cake
     public static Map<String, Integer> getQuantitiesBySize(ServletContext context, String cakeId) {
         return getQuantitiesByOption(context, cakeId, "size");
     }
 
+    //get quantities by size for specific cake
     private static Map<String, Integer> getQuantitiesByOption(ServletContext context,
-                                                              String cakeId,
-                                                              String optionType) {
+                                                              String cakeId, String optionType) {
         List<InventoryItem> items = loadAllItems(context);
         Map<String, Integer> result = new HashMap<>();
 
@@ -61,7 +67,7 @@ public class LoadInventoryServlet extends HttpServlet {
         return result;
     }
 
-
+    //load all inventory items from json file
     public static List<InventoryItem> loadAllItems(ServletContext context) {
         try {
             String filePath = context.getRealPath("/WEB-INF/" + INVENTORY_FILE);

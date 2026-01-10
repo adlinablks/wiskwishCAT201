@@ -4,6 +4,7 @@
 <%@ page import="java.nio.charset.StandardCharsets" %>
 
 <%
+    //only allow admin to access this page
     String userRole = (String) session.getAttribute("userRole");
     if (userRole == null || !userRole.equals("admin")) {
         response.sendRedirect("login.jsp");
@@ -213,6 +214,7 @@
 
 <body>
 
+<!-- header with navigation and controls -->
 <div class="header">
     <div class="header-title">Wisk Wish Dashboard</div>
     <div class="header-right">
@@ -225,6 +227,37 @@
 
 <div class="container">
     <h1 class="page-title">Inventory</h1>
+
+    <%
+        //read last export date
+        String lastExportDate = "Never";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
+
+        try {
+            String exportFilePath = getServletContext().getRealPath("/WEB-INF/last-export.txt");
+            File exportFile = new File(exportFilePath);
+            if (exportFile.exists()) {
+                BufferedReader reader = new BufferedReader(new FileReader(exportFile));
+                String timestamp = reader.readLine();
+                reader.close();
+
+                if (timestamp != null && !timestamp.isEmpty()) {
+                    long ts = Long.parseLong(timestamp);
+                    Date date = new Date(ts);
+                    lastExportDate = dateFormat.format(date);
+                }
+            }
+        } catch (Exception e) {
+            lastExportDate = "Error reading date";
+        }
+    %>
+
+    <!-- display last export information -->
+    <div class="export-info">
+        <div class="export-date">
+            Last inventory export: <strong><%= lastExportDate %></strong>
+        </div>
+    </div>
 
     <% if ("success".equals(request.getParameter("update"))) { %>
     <div class="success-message">
@@ -240,6 +273,8 @@
 
         <%
             // Define cake data
+        <%
+            //define cake data
             String[][] cakes = {
                     {"C01", "Ribbon Cake", "ribbon-cake.jpg"},
                     {"C02", "Stitch Cake", "stitch-cake.jpg"},
@@ -251,6 +286,7 @@
 
             ServletContext context = application;
 
+            //loop through each cake
             for (String[] cake : cakes) {
                 String cakeId = cake[0];
                 String cakeName = cake[1];
@@ -265,14 +301,17 @@
 
 
 
+        <!-- individual cake inventory item -->
         <div class="inventory-item">
             <div class="item-image">
                 <img src="${pageContext.request.contextPath}/pictures/<%= cakeImage %>" alt="<%= cakeName %>">
             </div>
+
             <div class="item-details">
                 <div class="item-id"><%= cakeId %></div>
                 <div class="item-name"><%= cakeName %></div>
 
+                <!--- display tier options --->
                 <div class="customization-row">
                     <span class="customization-label">Tier:</span>
                     <%
@@ -286,6 +325,7 @@
                     %>
                 </div>
 
+                <!--- display flavour options --->
                 <div class="customization-row">
                     <span class="customization-label">Flavour:</span>
                     <%
@@ -299,6 +339,7 @@
                     %>
                 </div>
 
+                <!--- display size options --->
                 <div class="customization-row">
                     <span class="customization-label">Size:</span>
                     <%
@@ -313,6 +354,7 @@
                 </div>
             </div>
 
+            <!--- total stocka and update button --->
             <div class="item-actions">
                 <div class="item-stock">Total: <%= totalQty %></div>
                 <a href="update-inventory.jsp?cakeId=<%= cakeId %>&cakeName=<%= java.net.URLEncoder.encode(cakeName, StandardCharsets.UTF_8) %>" class="update-button">Update Quantity</a>

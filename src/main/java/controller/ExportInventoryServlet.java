@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+//handles inventory export function and generates summary report in JSON
 @WebServlet("/ExportInventoryServlet")
 public class ExportInventoryServlet extends HttpServlet {
 
@@ -28,19 +29,20 @@ public class ExportInventoryServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        // Check admin authentication
+        //check only admin can export
         if (session == null || !"admin".equals(session.getAttribute("userRole"))) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        // Export summary
+        //export summary
         exportSummary(response);
 
-        // Save the current timestamp as the last export time
+        //save the current timestamp as the last export time
         saveLastExportTimestamp();
     }
 
+    //summary report and organize data according to tier, flavour and size
     private void exportSummary(HttpServletResponse response) throws IOException {
         String filePath = getServletContext().getRealPath("/WEB-INF/" + INVENTORY_FILE);
         File file = new File(filePath);
@@ -51,7 +53,7 @@ public class ExportInventoryServlet extends HttpServlet {
             return;
         }
 
-        // Read inventory
+        //read inventory
         List<InventoryItem> inventoryList;
         try (Reader reader = new FileReader(file)) {
             Type listType = new TypeToken<ArrayList<InventoryItem>>(){}.getType();
@@ -62,16 +64,16 @@ public class ExportInventoryServlet extends HttpServlet {
             inventoryList = new ArrayList<>();
         }
 
-        // Create summary structure
+        //create summary structure
         Map<String, Object> summaryReport = new LinkedHashMap<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
         String exportDate = dateFormat.format(new Date());
 
-        // Add metadata
+        //add metadata
         summaryReport.put("exportDate", exportDate);
         summaryReport.put("exportTimestamp", new Date().getTime());
 
-        // Calculate overall statistics
+        //calculate overall quantities for all cakes
         int grandTotal = 0;
         for (InventoryItem item : inventoryList) {
             grandTotal += item.getQuantity();
@@ -86,12 +88,12 @@ public class ExportInventoryServlet extends HttpServlet {
         cakeNames.put("C05", "Drawn Flower Cake");
         cakeNames.put("C06", "Bomb Cake");
 
-        // Process each cake in order
+        //process each cake in order
         List<String> cakeOrder = Arrays.asList("C01", "C02", "C03", "C04", "C05", "C06");
         List<Map<String, Object>> cakesList = new ArrayList<>();
 
         for (String cakeId : cakeOrder) {
-            // Check if this cake has any inventory
+            //check if this cake has any inventory
             boolean hasInventory = false;
             for (InventoryItem item : inventoryList) {
                 if (item.getCakeId().equals(cakeId)) {
@@ -106,25 +108,26 @@ public class ExportInventoryServlet extends HttpServlet {
             cakeData.put("cakeId", cakeId);
             cakeData.put("cakeName", cakeNames.get(cakeId));
 
-            // Calculate breakdown
+            //calculate breakdown
             Map<String, Integer> tierQty = new LinkedHashMap<>();
             Map<String, Integer> flavourQty = new LinkedHashMap<>();
             Map<String, Integer> sizeQty = new LinkedHashMap<>();
             int totalQty = 0;
 
+            //aggregate and calculate quantities
             for (InventoryItem item : inventoryList) {
                 if (item.getCakeId().equals(cakeId)) {
                     totalQty += item.getQuantity();
 
-                    // Tier breakdown
+                    //tier
                     String tier = item.getTier();
                     tierQty.put(tier, tierQty.getOrDefault(tier, 0) + item.getQuantity());
 
-                    // Flavour breakdown
+                    //flavour
                     String flavour = item.getFlavour();
                     flavourQty.put(flavour, flavourQty.getOrDefault(flavour, 0) + item.getQuantity());
 
-                    // Size breakdown
+                    //size
                     String size = item.getSize();
                     sizeQty.put(size, sizeQty.getOrDefault(size, 0) + item.getQuantity());
                 }
@@ -132,19 +135,21 @@ public class ExportInventoryServlet extends HttpServlet {
 
             cakeData.put("totalQuantity", totalQty);
 
-            // Format breakdowns as readable strings
+            //format tier breakdowns
             List<String> tierList = new ArrayList<>();
             for (Map.Entry<String, Integer> entry : tierQty.entrySet()) {
                 tierList.add(entry.getKey() + ": " + entry.getValue());
             }
             cakeData.put("tiers", tierList);
 
+            //format flavour breakdowns
             List<String> flavourList = new ArrayList<>();
             for (Map.Entry<String, Integer> entry : flavourQty.entrySet()) {
                 flavourList.add(entry.getKey() + ": " + entry.getValue());
             }
             cakeData.put("flavours", flavourList);
 
+            //format size breakdown
             List<String> sizeList = new ArrayList<>();
             for (Map.Entry<String, Integer> entry : sizeQty.entrySet()) {
                 sizeList.add(entry.getKey() + ": " + entry.getValue());
@@ -154,31 +159,31 @@ public class ExportInventoryServlet extends HttpServlet {
             cakesList.add(cakeData);
         }
 
+        //add final summary statistic
         summaryReport.put("totalCakeTypes", cakesList.size());
         summaryReport.put("inventory", cakesList);
 
-        // Set response headers
+        //set response headers
         response.setContentType("application/json");
         response.setHeader("Content-Disposition", "attachment; filename=\"inventory-summary.json\"");
 
-        // Write summary to response
+        //write summary to response
         String jsonOutput = gson.toJson(summaryReport);
         response.getWriter().write(jsonOutput);
         response.getWriter().flush();
     }
 
+    //save current timestamp to track inventory last reported
     private void saveLastExportTimestamp() {
         try {
             String exportFilePath = getServletContext().getRealPath("/WEB-INF/" + LAST_EXPORT_FILE);
             File exportFile = new File(exportFilePath);
 
-            // Ensure parent directory exists
             File parentDir = exportFile.getParentFile();
             if (!parentDir.exists()) {
                 parentDir.mkdirs();
             }
 
-            // Write current timestamp
             BufferedWriter writer = new BufferedWriter(new FileWriter(exportFile));
             writer.write(String.valueOf(new Date().getTime()));
             writer.close();
