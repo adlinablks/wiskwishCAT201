@@ -63,7 +63,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                 return;
             }
 
-            // Update JSON file
+            // Update JSON file (without updating timestamp)
             boolean success = updateInventoryInJSON(cakeId, tier, flavour, size, quantity);
 
             if (success) {
@@ -111,9 +111,6 @@ public class UpdateInventoryServlet extends HttpServlet {
                 inventoryList = new ArrayList<>();
             }
 
-            // Get current formatted date (e.g., "2026-01-10 13:45:00")
-            String currentDate = sdf.format(new Date());
-
             // Find and update the item
             boolean found = false;
             for (InventoryItem item : inventoryList) {
@@ -123,7 +120,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                         item.getSize().equals(size)) {
 
                     item.setQuantity(quantity);
-                    item.setLastUpdated(currentDate); // Saves as String
+                    // DO NOT update timestamp here - only on export
                     found = true;
                     break;
                 }
@@ -137,7 +134,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                 newItem.setFlavour(flavour);
                 newItem.setSize(size);
                 newItem.setQuantity(quantity);
-                newItem.setLastUpdated(currentDate); // Saves as String
+                // Leave lastUpdated null for new items - will be set on export
                 inventoryList.add(newItem);
             }
 

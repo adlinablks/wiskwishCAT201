@@ -25,6 +25,14 @@ public class InventoryItem {
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public String getLastUpdated() { return lastUpdated; }
-    public void setLastUpdated(String lastUpdated) { this.lastUpdated = lastUpdated; }
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public String getLastUpdated() {
+        if (lastUpdated == null || lastUpdated.isEmpty()) {
+            return String.valueOf(new java.util.Date().getTime());
+        }
+        return lastUpdated;
+    }
 }
