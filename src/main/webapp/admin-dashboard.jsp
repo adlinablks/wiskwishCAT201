@@ -2,9 +2,6 @@
 <%@ page import="controller.LoadInventoryServlet" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.io.*" %>
 
 <%
     //only allow admin to access this page
@@ -85,25 +82,6 @@
             color: white;
             font-weight: bold;
             margin-bottom: 25px;
-        }
-
-        .export-info {
-            background-color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .export-date {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .export-date strong {
-            color: lightblue;
         }
 
         .tabs {
@@ -197,6 +175,7 @@
             font-weight: bold;
         }
 
+        /* Container for Total and Action Button */
         .item-actions {
             display: flex;
             flex-direction: column;
@@ -222,6 +201,14 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        /* CSS FOR DATE */
+        .last-updated {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -232,7 +219,8 @@
     <div class="header-title">Wisk Wish Dashboard</div>
     <div class="header-right">
         <span class="admin-text">Admin</span>
-        <a href="${pageContext.request.contextPath}/ExportInventoryServlet?type=summary" class="header-button">Export Inventory</a>
+        <a href="${pageContext.request.contextPath}/ExportInventoryServlet" class="header-button">Export Inventory</a>
+        <a href="${pageContext.request.contextPath}/ExportOrderServlet" class="header-button">Export Orders</a>
         <button class="header-button" onclick="location.href='logout.jsp'">Logout</button>
     </div>
 </div>
@@ -283,6 +271,8 @@
 
     <div class="inventory-list">
 
+        <!--<%
+            // Define cake data
         <%
             //define cake data
             String[][] cakes = {
@@ -294,7 +284,7 @@
                     {"C06", "Bomb Cake", "bomb-cake.jpg"}
             };
 
-            ServletContext context = getServletContext();
+            ServletContext context = application;
 
             //loop through each cake
             for (String[] cake : cakes) {
@@ -307,7 +297,9 @@
                 Map<String, Integer> flavourQty = LoadInventoryServlet.getQuantitiesByFlavour(context, cakeId);
                 Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
                 int totalQty = LoadInventoryServlet.getTotalQuantity(context, cakeId);
-        %>
+        %>-->
+
+
 
         <!-- individual cake inventory item -->
         <div class="inventory-item">
