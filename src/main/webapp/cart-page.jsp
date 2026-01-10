@@ -460,8 +460,15 @@
 
 
                 <div class="item-actions">
+                    <form action="RemoveFromCartServlet" method="post" style="margin-bottom: 10px;">
+                        <input type="hidden" name="itemId" value="<%= item.getId() %>">
+                        <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove this item?')">
+                            &times; </button>
+                    </form>
+
                     <div class="qty-display">Qty: <%= item.getQuantity() %></div>
                 </div>
+
             </div>
             <%
                     }

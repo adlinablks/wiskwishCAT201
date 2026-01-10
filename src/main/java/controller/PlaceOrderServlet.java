@@ -32,7 +32,7 @@ public class PlaceOrderServlet extends HttpServlet {
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
         if (userEmail == null || cart == null || cart.isEmpty()) {
-            response.sendRedirect("cart.jsp");
+            response.sendRedirect("cart-page.jsp");
             return;
         }
 

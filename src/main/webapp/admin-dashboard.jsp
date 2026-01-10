@@ -238,7 +238,7 @@
 
     <div class="inventory-list">
 
-        <!--<%
+        <%
             // Define cake data
             String[][] cakes = {
                     {"C01", "Ribbon Cake", "ribbon-cake.jpg"},
@@ -261,7 +261,7 @@
                 Map<String, Integer> flavourQty = LoadInventoryServlet.getQuantitiesByFlavour(context, cakeId);
                 Map<String, Integer> sizeQty = LoadInventoryServlet.getQuantitiesBySize(context, cakeId);
                 int totalQty = LoadInventoryServlet.getTotalQuantity(context, cakeId);
-        %>-->
+        %>
 
 
 
