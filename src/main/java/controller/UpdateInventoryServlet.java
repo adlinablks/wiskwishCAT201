@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Date;
 import cat201project.model.InventoryItem;
 
+//handles inventory updates from admin dashboard
+//and process request to update quantities in JSON
 @WebServlet("/UpdateInventoryServlet")
 public class UpdateInventoryServlet extends HttpServlet {
 
@@ -28,13 +30,13 @@ public class UpdateInventoryServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        // Check admin authentication
+        //only allow admin to update inventory
         if (session == null || !"admin".equals(session.getAttribute("userRole"))) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        // Get form parameters
+        //get form parameters
         String cakeId = request.getParameter("cakeId");
         String cakeName = request.getParameter("cakeName");
         String tier = request.getParameter("tier");
@@ -42,7 +44,7 @@ public class UpdateInventoryServlet extends HttpServlet {
         String size = request.getParameter("size");
         String quantityStr = request.getParameter("quantity");
 
-        // Validate inputs
+        //validate inputs
         if (cakeId == null || tier == null || flavour == null ||
                 size == null || quantityStr == null) {
             request.setAttribute("error", "All fields are required");
@@ -63,7 +65,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                 return;
             }
 
-            // Update JSON file (without updating timestamp)
+            //update JSON file - without updating timestamp
             boolean success = updateInventoryInJSON(cakeId, tier, flavour, size, quantity);
 
             if (success) {
@@ -83,13 +85,13 @@ public class UpdateInventoryServlet extends HttpServlet {
         }
     }
 
+    //update inventory quantity in JSOn for specific cake customization
     private boolean updateInventoryInJSON(String cakeId, String tier,
                                           String flavour, String size, int quantity) {
         try {
             String filePath = getServletContext().getRealPath("/WEB-INF/" + INVENTORY_FILE);
             File file = new File(filePath);
 
-            // Ensure parent directory exists
             File parentDir = file.getParentFile();
             if (!parentDir.exists()) {
                 parentDir.mkdirs();
@@ -97,7 +99,6 @@ public class UpdateInventoryServlet extends HttpServlet {
 
             List<InventoryItem> inventoryList;
 
-            // Read existing data
             if (file.exists()) {
                 Reader reader = new FileReader(file);
                 Type listType = new TypeToken<ArrayList<InventoryItem>>(){}.getType();
@@ -111,7 +112,7 @@ public class UpdateInventoryServlet extends HttpServlet {
                 inventoryList = new ArrayList<>();
             }
 
-            // Find and update the item
+            //find and update the item
             boolean found = false;
             for (InventoryItem item : inventoryList) {
                 if (item.getCakeId().equals(cakeId) &&
@@ -120,13 +121,12 @@ public class UpdateInventoryServlet extends HttpServlet {
                         item.getSize().equals(size)) {
 
                     item.setQuantity(quantity);
-                    // DO NOT update timestamp here - only on export
                     found = true;
                     break;
                 }
             }
 
-            // If not found, add new item
+            //if not found, add new item
             if (!found) {
                 InventoryItem newItem = new InventoryItem();
                 newItem.setCakeId(cakeId);
@@ -134,11 +134,11 @@ public class UpdateInventoryServlet extends HttpServlet {
                 newItem.setFlavour(flavour);
                 newItem.setSize(size);
                 newItem.setQuantity(quantity);
-                // Leave lastUpdated null for new items - will be set on export
+                //leave lastUpdated null for new items - will be set on export
                 inventoryList.add(newItem);
             }
 
-            // Write back to file
+            //write back to file
             Writer writer = new FileWriter(file);
             gson.toJson(inventoryList, writer);
             writer.close();
