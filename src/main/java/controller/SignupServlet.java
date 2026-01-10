@@ -48,7 +48,7 @@ public class SignupServlet extends HttpServlet {
         //  Check if email already exists
         for (User u : userList) {
             if (u.getEmail().equalsIgnoreCase(email)) {
-                // If email is found, stop and go back to signup page
+                // If email is found, go to signup page
                 response.sendRedirect("signup.jsp?error=exists");
                 return;
             }
