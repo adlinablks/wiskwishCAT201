@@ -38,7 +38,7 @@ This repository contains the source code for the Wiskwish website, including bot
 - Order Export
 
 # Tech Stack
-1. Frontend - HTML, CSS, JavaScript
+1. Frontend - HTML5, CSS3, JSP, Vanilla JavaScript
 2. Backend - Jakarta Servlets (formerly Java Servlets), Maven, Tomcat 10
 3. Data Storage - JSON File
 4. Languages - Java, JSP, HTML, CSS, JavaScript
